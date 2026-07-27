@@ -59,3 +59,16 @@ if (!function_exists('renderAdSlot')) {
         }
     }
 }
+
+if (!function_exists('toBengaliNumber')) {
+    /**
+     * Convert English numbers to Bengali digits
+     */
+    function toBengaliNumber($number)
+    {
+        $en_num = ['0','1','2','3','4','5','6','7','8','9'];
+        $bn_num = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+        return str_replace($en_num, $bn_num, $number);
+    }
+}
+

@@ -15,7 +15,7 @@ class HomeController extends Controller
         $featured = News::published()->featured()->with(['category', 'author', 'featuredImage'])->latest()->first();
         
         // Get recent news
-        $recent = News::published()->latest()->take(10)->get();
+        $recent = News::published()->latest()->take(15)->get();
         
         // Section Categories (from Settings)
         $selectedCats = json_decode(\App\Models\Setting::get('homepage_categories', '[]'), true) ?? [];
@@ -38,7 +38,7 @@ class HomeController extends Controller
         $mostRead = News::published()->orderBy('views', 'desc')->with('category')->take(5)->get();
 
         // Get Latest News (feature flag)
-        $latestFeaturedNews = News::published()->where('is_latest', true)->latest()->take(6)->get();
+        $latestFeaturedNews = News::published()->where('is_latest', true)->latest()->take(9)->get();
 
         return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews'));
     }

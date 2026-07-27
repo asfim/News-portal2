@@ -89,8 +89,11 @@
                                             <i class="fa-solid fa-photo-film me-1"></i> Insert Media
                                         </button>
                                     </label>
-                                    <!-- CKEditor 4 textarea -->
-                                    <textarea class="form-control" id="editorContent" name="content">{{ old('content') }}</textarea>
+                                    <!-- Quill / CKEditor textarea -->
+                                    <textarea class="form-control d-none" id="editorContent" name="content">{{ old('content') }}</textarea>
+                                    <div id="wysiwygEditor"
+                                        style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -368,19 +371,26 @@
         </div>
     </div>
 
-    <!-- Load CKEditor 4 Full Build from CDN -->
-    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+    <!-- Load CKEditor 5 from CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. CKEditor 4 Initialization
-            CKEDITOR.replace('editorContent', {
-                height: 600,
-                extraPlugins: 'image2', // Enables advanced image drag-resizing and positioning
-                removeButtons: 'Image', // We use our own Insert Media button
-                allowedContent: true, // Disable ACF to allow any HTML (like our custom img styles)
-                versionCheck: false // Removes the insecure version warning banner
-            });
+            let ckEditorInstance;
+            // 1. CKEditor Initialization
+            ClassicEditor
+                .create(document.querySelector('#wysiwygEditor'), {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        'blockQuote', 'insertTable', 'undo', 'redo'
+                    ]
+                })
+                .then(editor => {
+                    ckEditorInstance = editor;
+                    editor.model.document.on('change:data', () => {
+                        document.getElementById('editorContent').value = editor.getData();
+                    });
+                    editor.setData(document.getElementById('editorContent').value);
+                });
 
             // 2. Slug Auto Generation
             document.getElementById('title').addEventListener('input', function() {
@@ -477,10 +487,13 @@
                 if (!selectedMediaId) return;
 
                 if (mediaTarget === 'ckeditor') {
-                    var editor = CKEDITOR.instances.editorContent;
-                    if (editor) {
-                        editor.insertHtml('<img src="' + selectedMediaPath + '" alt="Inserted Media" style="max-width:100%; height:auto;" />');
-                    }
+                    ckEditorInstance.model.change(writer => {
+                        const imageElement = writer.createElement('imageBlock', {
+                            src: selectedMediaPath
+                        });
+                        ckEditorInstance.model.insertContent(imageElement, ckEditorInstance.model
+                            .document.selection);
+                    });
                     selectMediaModal.hide();
                     return;
                 }
