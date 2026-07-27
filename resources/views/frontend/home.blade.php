@@ -165,50 +165,134 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-main">
-        <span class="glance-tag">একনজরে</span>
-        @if ($featured)
-          <a href="{{ route('news.show', $featured->slug) }}">
-            <figure>
-              @if ($featured->thumbnailImage || $featured->featuredImage)
-                <x-news-thumbnail :news="$featured" classes="w-100 h-100 object-fit-cover" />
-              @else
-                <div class="art art1"></div>
-              @endif
-            </figure>
-            <h2>{{ $featured->title }}</h2>
-          </a>
-          <p>{{ $featured->short_description }}</p>
-        @else
-          <figure><div class="art art1"></div></figure>
-          <h2>কোনো সংবাদ পাওয়া যায়নি</h2>
-        @endif
+        @if ($latestFeaturedNews->isNotEmpty())
+          <div class="latest-layout">
+            
+            <!-- Row 1: 1 Big Card (Image left, Title & description right) -->
+            @if ($latestFeaturedNews->count() >= 1)
+              @php
+                $row1Post = $latestFeaturedNews->first();
+                $caption = null;
+                if ($row1Post->featuredImage && $row1Post->featuredImage->caption) {
+                    $caption = $row1Post->featuredImage->caption;
+                } elseif ($row1Post->thumbnailImage && $row1Post->thumbnailImage->caption) {
+                    $caption = $row1Post->thumbnailImage->caption;
+                } elseif ($row1Post->featuredImage && $row1Post->featuredImage->alt_text) {
+                    $caption = $row1Post->featuredImage->alt_text;
+                } elseif ($row1Post->thumbnailImage && $row1Post->thumbnailImage->alt_text) {
+                    $caption = $row1Post->thumbnailImage->alt_text;
+                }
+              @endphp
+              <div class="latest-row-1">
+                <div class="latest-lead-card">
+                  <div class="lead-img-container">
+                    <div class="lead-img">
+                      <a href="{{ route('news.show', $row1Post->slug) }}">
+                        @if ($row1Post->thumbnailImage || $row1Post->featuredImage)
+                          <x-news-thumbnail :news="$row1Post" classes="w-100 h-100 object-fit-cover" />
+                        @else
+                          <div class="art art1 w-100 h-100"></div>
+                        @endif
+                        @if ($row1Post->video_url)
+                          <div class="play-indicator"></div>
+                        @endif
+                      </a>
+                    </div>
+                    @if ($caption)
+                      <div class="image-caption">{{ $caption }}</div>
+                    @endif
+                  </div>
+                  <div class="lead-content">
+                    <h2><a href="{{ route('news.show', $row1Post->slug) }}">{{ $row1Post->title }}</a></h2>
+                    <p>{{ Str::limit($row1Post->short_description, 180) }}</p>
+                    <span class="time">{{ $row1Post->created_at->diffForHumans() }}</span>
+                  </div>
+                </div>
+              </div>
+            @endif
 
-        <div class="hero-sub-grid">
-          @php
-            $subGridNews = $recent->where('id', '!=', optional($featured)->id)->take(2);
-          @endphp
-          @foreach($subGridNews as $index => $item)
-            <div>
-              <a href="{{ route('news.show', $item->slug) }}">
-                <figure class="thumb">
-                  @if ($item->thumbnailImage || $item->featuredImage)
-                    <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
-                  @else
-                    <div class="art art{{ $index == 0 ? 3 : 4 }}"></div>
-                  @endif
-                  <span class="badge-num">{{ $index + 2 }}</span>
-                </figure>
-                <h4>{{ $item->title }}</h4>
-              </a>
-            </div>
-          @endforeach
-        </div>
+            <!-- Row 2: 2 Columns (Title left, Image right) -->
+            @if ($latestFeaturedNews->count() >= 2)
+              @php $row2Posts = $latestFeaturedNews->slice(1, 2); @endphp
+              <div class="latest-row-2">
+                @foreach ($row2Posts as $item)
+                  <div class="latest-card-style-2">
+                    <div class="card-content">
+                      <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
+                      <p>{{ Str::limit($item->short_description, 120) }}</p>
+                      <span class="time">{{ $item->created_at->diffForHumans() }}</span>
+                    </div>
+                    <div class="card-img">
+                      <a href="{{ route('news.show', $item->slug) }}">
+                        @if ($item->thumbnailImage || $item->featuredImage)
+                          <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
+                        @else
+                          <div class="art art{{ $loop->iteration + 1 }} w-100 h-100"></div>
+                        @endif
+                        @if ($item->video_url)
+                          <div class="play-indicator"></div>
+                        @endif
+                      </a>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+
+            <!-- Row 3: 3 Columns (Image top, Title below) -->
+            @if ($latestFeaturedNews->count() >= 4)
+              @php $row3Posts = $latestFeaturedNews->slice(3, 3); @endphp
+              <div class="latest-row-3">
+                @foreach ($row3Posts as $item)
+                  <div class="latest-card-style-3">
+                    <div class="card-img">
+                      <a href="{{ route('news.show', $item->slug) }}">
+                        @if ($item->thumbnailImage || $item->featuredImage)
+                          <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
+                        @else
+                          <div class="art art{{ $loop->iteration + 3 }} w-100 h-100"></div>
+                        @endif
+                        @if ($item->video_url)
+                          <div class="play-indicator"></div>
+                        @endif
+                      </a>
+                    </div>
+                    <div class="card-content">
+                      <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
+                      <span class="time">{{ $item->created_at->diffForHumans() }}</span>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+
+            <!-- Row 4: 3 Columns (Text only) -->
+            @if ($latestFeaturedNews->count() >= 7)
+              @php $row4Posts = $latestFeaturedNews->slice(6, 3); @endphp
+              <div class="latest-row-4">
+                @foreach ($row4Posts as $item)
+                  <div class="latest-card-style-4">
+                    <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
+                    <p>{{ Str::limit($item->short_description, 140) }}</p>
+                    <span class="time">{{ $item->created_at->diffForHumans() }}</span>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+
+          </div>
+        @else
+          <div class="text-center py-5 text-secondary">কোনো সর্বশেষ খবর পাওয়া যায়নি।</div>
+        @endif
       </div>
 
-      <!-- Side list: Latest News -->
+      <!-- Side list: Breaking News -->
       <aside class="side-list">
-        <h3 class="head">সর্বশেষ</h3>
-        @foreach ($recent->take(12) as $index => $item)
+        <h3 class="head">ব্রেকিং নিউজ</h3>
+        @php
+          $sidebarNews = $breaking->isNotEmpty() ? $breaking : $recent;
+        @endphp
+        @foreach ($sidebarNews->take(12) as $index => $item)
           <div class="side-item" {!! $loop->last ? 'style="border-bottom:none;"' : '' !!}>
             <span class="dot">{{ toBengaliNumber($loop->iteration) }}</span>
             <div>
@@ -220,127 +304,7 @@
       </aside>
     </section>
 
-    <!-- Latest News (Feature Flag: is_latest) -->
-    @if ($latestFeaturedNews->isNotEmpty())
-      <div class="sec-head">
-        <h3>সর্বশেষ খবর</h3>
-      </div>
-      <div class="latest-layout">
-        
-        <!-- Row 1: 1 Big Card (Image left, Title & description right) -->
-        @if ($latestFeaturedNews->count() >= 1)
-          @php
-            $row1Post = $latestFeaturedNews->first();
-            $caption = null;
-            if ($row1Post->featuredImage && $row1Post->featuredImage->caption) {
-                $caption = $row1Post->featuredImage->caption;
-            } elseif ($row1Post->thumbnailImage && $row1Post->thumbnailImage->caption) {
-                $caption = $row1Post->thumbnailImage->caption;
-            } elseif ($row1Post->featuredImage && $row1Post->featuredImage->alt_text) {
-                $caption = $row1Post->featuredImage->alt_text;
-            } elseif ($row1Post->thumbnailImage && $row1Post->thumbnailImage->alt_text) {
-                $caption = $row1Post->thumbnailImage->alt_text;
-            }
-          @endphp
-          <div class="latest-row-1">
-            <div class="latest-lead-card">
-              <div class="lead-img-container">
-                <div class="lead-img">
-                  <a href="{{ route('news.show', $row1Post->slug) }}">
-                    @if ($row1Post->thumbnailImage || $row1Post->featuredImage)
-                      <x-news-thumbnail :news="$row1Post" classes="w-100 h-100 object-fit-cover" />
-                    @else
-                      <div class="art art1 w-100 h-100"></div>
-                    @endif
-                    @if ($row1Post->video_url)
-                      <div class="play-indicator"></div>
-                    @endif
-                  </a>
-                </div>
-                @if ($caption)
-                  <div class="image-caption">{{ $caption }}</div>
-                @endif
-              </div>
-              <div class="lead-content">
-                <h2><a href="{{ route('news.show', $row1Post->slug) }}">{{ $row1Post->title }}</a></h2>
-                <p>{{ Str::limit($row1Post->short_description, 180) }}</p>
-                <span class="time">{{ $row1Post->created_at->diffForHumans() }}</span>
-              </div>
-            </div>
-          </div>
-        @endif
 
-        <!-- Row 2: 2 Columns (Title left, Image right) -->
-        @if ($latestFeaturedNews->count() >= 2)
-          @php $row2Posts = $latestFeaturedNews->slice(1, 2); @endphp
-          <div class="latest-row-2">
-            @foreach ($row2Posts as $item)
-              <div class="latest-card-style-2">
-                <div class="card-content">
-                  <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
-                  <p>{{ Str::limit($item->short_description, 120) }}</p>
-                  <span class="time">{{ $item->created_at->diffForHumans() }}</span>
-                </div>
-                <div class="card-img">
-                  <a href="{{ route('news.show', $item->slug) }}">
-                    @if ($item->thumbnailImage || $item->featuredImage)
-                      <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
-                    @else
-                      <div class="art art{{ $loop->iteration + 1 }} w-100 h-100"></div>
-                    @endif
-                    @if ($item->video_url)
-                      <div class="play-indicator"></div>
-                    @endif
-                  </a>
-                </div>
-              </div>
-            @endforeach
-          </div>
-        @endif
-
-        <!-- Row 3: 3 Columns (Image top, Title below) -->
-        @if ($latestFeaturedNews->count() >= 4)
-          @php $row3Posts = $latestFeaturedNews->slice(3, 3); @endphp
-          <div class="latest-row-3">
-            @foreach ($row3Posts as $item)
-              <div class="latest-card-style-3">
-                <div class="card-img">
-                  <a href="{{ route('news.show', $item->slug) }}">
-                    @if ($item->thumbnailImage || $item->featuredImage)
-                      <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
-                    @else
-                      <div class="art art{{ $loop->iteration + 3 }} w-100 h-100"></div>
-                    @endif
-                    @if ($item->video_url)
-                      <div class="play-indicator"></div>
-                    @endif
-                  </a>
-                </div>
-                <div class="card-content">
-                  <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
-                  <span class="time">{{ $item->created_at->diffForHumans() }}</span>
-                </div>
-              </div>
-            @endforeach
-          </div>
-        @endif
-
-        <!-- Row 4: 3 Columns (Text only) -->
-        @if ($latestFeaturedNews->count() >= 7)
-          @php $row4Posts = $latestFeaturedNews->slice(6, 3); @endphp
-          <div class="latest-row-4">
-            @foreach ($row4Posts as $item)
-              <div class="latest-card-style-4">
-                <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h4>
-                <p>{{ Str::limit($item->short_description, 140) }}</p>
-                <span class="time">{{ $item->created_at->diffForHumans() }}</span>
-              </div>
-            @endforeach
-          </div>
-        @endif
-
-      </div>
-    @endif
 
 
     <!-- Ad band (Dynamic or Custom placeholder fallback) -->

@@ -40,7 +40,10 @@ class HomeController extends Controller
         // Get Latest News (feature flag)
         $latestFeaturedNews = News::published()->where('is_latest', true)->latest()->take(9)->get();
 
-        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews'));
+        // Get Breaking News for the sidebar
+        $breaking = News::published()->breaking()->latest()->take(12)->get();
+
+        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews', 'breaking'));
     }
 
     public function showNews($slug)

@@ -21,27 +21,14 @@
 @endphp
 
 <div class="top-row">
-    <div class="wrap">
-        <div style="display:flex;align-items:center;gap:16px;">
-            <div class="hamburger" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="cats">
-                <a href="{{ route('home') }}">হোম</a>
-                @foreach (\App\Models\Category::where('status', true)->whereNull('parent_id')->orderBy('name', 'asc')->take(5)->get() as $cat)
-                    <a href="{{ route('category', $cat->slug) }}">{{ $cat->name }}</a>
-                @endforeach
-            </div>
-        </div>
+    <div class="wrap justify-content-end">
         <div class="icons">
-            <span id="bn-time">{{ $full_bn_date }}</span>
-            <a href="{{ route('search') }}">🔍</a>
+            <span id="bn-time"><i class="fa-regular fa-calendar me-1"></i> {{ $full_bn_date }}</span>
+            <a href="{{ route('search') }}" title="खুঁজুন"><i class="fa-solid fa-magnifying-glass"></i></a>
             @auth
-                <a href="{{ route('admin.dashboard') }}" title="ড্যাশবোর্ড">👤</a>
+                <a href="{{ route('admin.dashboard') }}" title="ড্যাশবোর্ড"><i class="fa-regular fa-user"></i></a>
             @else
-                <a href="{{ route('login') }}" title="লগইন">👤</a>
+                <a href="{{ route('login') }}" title="লগইন"><i class="fa-regular fa-user"></i></a>
             @endauth
         </div>
     </div>
@@ -50,7 +37,7 @@
 <div class="logo-row">
     <div class="wrap">
         <div class="search" style="cursor:pointer;" onclick="location.href='{{ route('search') }}'">
-            🔍 &nbsp;খুঁজুন
+            <i class="fa-solid fa-magnifying-glass me-1"></i> খুঁজুন
         </div>
         <div class="brand">
             <a href="{{ route('home') }}">
@@ -58,8 +45,6 @@
             </a>
         </div>
         <div class="right-actions">
-            <a href="{{ route('page.show', 'e-paper') }}" class="btn-outline">ই-পেপার</a>
-            <span class="lang-toggle">EN</span>
         </div>
     </div>
 </div>
