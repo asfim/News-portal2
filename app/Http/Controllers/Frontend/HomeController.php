@@ -25,7 +25,7 @@ class HomeController extends Controller
 
         $categorySections = Category::whereIn('slug', $selectedCats)
             ->with(['news' => function ($query) {
-                $query->published()->latest()->take(4);
+                $query->published()->featured()->latest()->take(8);
             }])->get();
 
         // Video News

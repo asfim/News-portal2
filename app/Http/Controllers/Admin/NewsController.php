@@ -78,8 +78,15 @@ class NewsController extends Controller
 
         if ($data['is_latest']) {
             $latestCount = News::where('is_latest', true)->count();
-            if ($latestCount >= 6) {
-                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ৬টি নিউজ Latest হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Latest অপশনটি বন্ধ করুন।');
+            if ($latestCount >= 9) {
+                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ৯টি নিউজ Latest হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Latest অপশনটি বন্ধ করুন।');
+            }
+        }
+
+        if ($data['breaking_news']) {
+            $breakingCount = News::where('breaking_news', true)->count();
+            if ($breakingCount >= 11) {
+                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ১১টি নিউজ Breaking News হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Breaking News অপশনটি বন্ধ করুন।');
             }
         }
 
@@ -149,11 +156,20 @@ class NewsController extends Controller
 
         if ($data['is_latest']) {
             $latestCount = News::where('is_latest', true)->where('id', '!=', $news->id)->count();
-            if ($latestCount >= 6) {
-                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ৬টি নিউজ Latest হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Latest অপশনটি বন্ধ করুন।');
+            if ($latestCount >= 9) {
+                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ৯টি নিউজ Latest হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Latest অপশনটি বন্ধ করুন।');
             }
         } else {
             $data['is_latest'] = false;
+        }
+
+        if ($data['breaking_news']) {
+            $breakingCount = News::where('breaking_news', true)->where('id', '!=', $news->id)->count();
+            if ($breakingCount >= 11) {
+                return redirect()->back()->withInput()->with('error', 'সর্বোচ্চ ১১টি নিউজ Breaking News হিসেবে রাখা যাবে। দয়া করে আগে অন্য কোনো নিউজ থেকে Breaking News অপশনটি বন্ধ করুন।');
+            }
+        } else {
+            $data['breaking_news'] = false;
         }
 
         // Handle publish_at scheduling

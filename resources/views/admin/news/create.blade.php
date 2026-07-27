@@ -322,7 +322,7 @@
 
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-bold text-danger small" for="is_latest">Latest News (Max
-                                    6)</label>
+                                    9)</label>
                                 <input class="form-check-input ms-0 border-danger float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="is_latest" name="is_latest"
                                     value="1" {{ old('is_latest') ? 'checked' : '' }}>

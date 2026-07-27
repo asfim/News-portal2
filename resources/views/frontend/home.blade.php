@@ -347,73 +347,201 @@
     <!-- Dynamic Category Sections -->
     @foreach($categorySections as $sectionIndex => $section)
       @php
-        $posts = $section->news->take(5);
+        $posts = $section->news;
         if($posts->isEmpty()) continue;
-        
-        $leadPost = $posts->first();
-        $col1Posts = $posts->slice(1, 2);
-        $col2Posts = $posts->slice(3, 2);
-        
-        $chipColors = ['chip-red', 'chip-blue', 'chip-purple'];
-        $chipColor = $chipColors[$sectionIndex % count($chipColors)];
       @endphp
-      
-      <div class="sec-head">
-        <h3>{{ $section->name }}</h3>
-        <a class="more" href="{{ route('category', $section->slug) }}">সব দেখুন ›</a>
-      </div>
-      
-      <div class="mix-grid">
-        <!-- Lead big news -->
-        <div class="mix-lead">
-          <span class="cat-chip {{ $chipColor }}">{{ $section->name }}</span>
-          <a href="{{ route('news.show', $leadPost->slug) }}">
-            <figure>
-              @if($leadPost->thumbnailImage || $leadPost->featuredImage)
-                <x-news-thumbnail :news="$leadPost" classes="w-100 h-100 object-fit-cover" />
+
+      @if ($section->slug === 'sports')
+        <!-- Special Sports Section Layout -->
+        <div class="sec-head">
+          <h3 class="sports-title"><span class="blue-dot"></span>{{ $section->name }}</h3>
+          <a class="more" href="{{ route('category', $section->slug) }}">সব দেখুন ›</a>
+        </div>
+        
+        <div class="sports-layout">
+          <!-- Main Content (Left) -->
+          <div class="sports-main">
+            @if ($posts->count() >= 1)
+              @php $heroPost = $posts->first(); @endphp
+              <div class="sports-hero-card">
+                <a href="{{ route('news.show', $heroPost->slug) }}">
+                  <figure class="sports-hero-img">
+                    @if ($heroPost->thumbnailImage || $heroPost->featuredImage)
+                      <x-news-thumbnail :news="$heroPost" classes="w-100 h-100 object-fit-cover" />
+                    @else
+                      <div class="art art1 w-100 h-100"></div>
+                    @endif
+                    @if ($heroPost->video_url)
+                      <div class="play-indicator"></div>
+                    @endif
+                    <div class="sports-hero-overlay">
+                      <h4>{{ $heroPost->title }}</h4>
+                      <span class="time">{{ $heroPost->created_at->diffForHumans() }}</span>
+                    </div>
+                  </figure>
+                </a>
+              </div>
+            @endif
+
+            @php $mainBottomPosts = $posts->slice(1, 2); @endphp
+            @if ($mainBottomPosts->count() > 0)
+              <div class="sports-bottom-grid">
+                @foreach ($mainBottomPosts as $post)
+                  <div class="sports-grid-card">
+                    <div class="card-img">
+                      <a href="{{ route('news.show', $post->slug) }}">
+                        @if ($post->thumbnailImage || $post->featuredImage)
+                          <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
+                        @else
+                          <div class="art art{{ $loop->iteration + 1 }} w-100 h-100"></div>
+                        @endif
+                        @if ($post->video_url)
+                          <div class="play-indicator"></div>
+                        @endif
+                      </a>
+                    </div>
+                    <div class="card-content">
+                      <h5><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h5>
+                      <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+          </div>
+
+          <!-- Sidebar Content (Right) -->
+          <div class="sports-sidebar">
+            <!-- Ad Slot / Mock Ad -->
+            <div class="sports-ad">
+              @if(function_exists('renderAdSlot') && !empty(renderAdSlot('sports_sidebar')))
+                {!! renderAdSlot('sports_sidebar') !!}
               @else
-                <div class="art art{{ ($sectionIndex * 3 + 1) % 10 + 1 }}"></div>
+                <div class="mock-sports-ad">
+                  <div class="ad-tag">ADVERTISEMENT</div>
+                  <div class="ad-content-box">
+                    <span class="fw-bold d-block mb-1 text-success">Resort Booking open!</span>
+                    <span class="small text-secondary">Enjoy Evergreen Eco Resort</span>
+                  </div>
+                </div>
               @endif
-            </figure>
-            <h4>{{ $leadPost->title }}</h4>
-          </a>
-          <p>{{ Str::limit($leadPost->short_description, 100) }}</p>
+            </div>
+
+            @php
+              $sportsTrending = $posts->where('trending_news', true);
+              $sportsNormal = $posts->where('trending_news', '!=', true);
+              $sidebarPosts = $sportsTrending->merge($sportsNormal)->take(3);
+            @endphp
+            @if ($sidebarPosts->count() > 0)
+              <div class="sports-side-list">
+                @foreach ($sidebarPosts as $post)
+                  <div class="sports-side-card">
+                    <div class="card-content">
+                      <h6><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h6>
+                      <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                    </div>
+                    <div class="card-img">
+                      <a href="{{ route('news.show', $post->slug) }}">
+                        @if ($post->thumbnailImage || $post->featuredImage)
+                          <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
+                        @else
+                          <div class="art art{{ $loop->iteration + 3 }} w-100 h-100"></div>
+                        @endif
+                        @if ($post->video_url)
+                          <div class="play-indicator"></div>
+                        @endif
+                      </a>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+          </div>
         </div>
 
-        <!-- Middle list news -->
-        <div class="mix-col">
-          @foreach($col1Posts as $post)
-            <a href="{{ route('news.show', $post->slug) }}">
-              <figure>
-                @if($post->thumbnailImage || $post->featuredImage)
-                  <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                @else
-                  <div class="art art{{ ($sectionIndex * 3 + $loop->iteration + 2) % 10 + 1 }}"></div>
-                @endif
-              </figure>
-              <span class="cat-chip {{ $chipColor }}">{{ $section->name }}</span>
-              <h5>{{ $post->title }}</h5>
-            </a>
-          @endforeach
+      @else
+        <!-- Standard Category Layout (2-row structure) -->
+        <div class="sec-head">
+          <h3>{{ $section->name }}</h3>
+          <a class="more" href="{{ route('category', $section->slug) }}">সব দেখুন ›</a>
         </div>
+        
+        <div class="category-section-layout">
+          
+          <!-- Row 1: 2 Columns (Title & description left, Image right) -->
+          @php
+            $row1Posts = $posts->take(2);
+            $row2Posts = $posts->slice(2, 3);
+          @endphp
+          @if ($row1Posts->count() > 0)
+            <div class="cat-row-1">
+              @foreach ($row1Posts as $post)
+                <div class="cat-card-style-1">
+                  <div class="card-content">
+                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                    <p>{{ Str::limit($post->short_description, 120) }}</p>
+                    <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                  </div>
+                  <div class="card-img">
+                    <a href="{{ route('news.show', $post->slug) }}">
+                      @if ($post->thumbnailImage || $post->featuredImage)
+                        <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
+                      @else
+                        <div class="art art{{ $loop->iteration }} w-100 h-100"></div>
+                      @endif
+                      @if ($post->video_url)
+                        <div class="play-indicator"></div>
+                      @endif
+                    </a>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          @endif
 
-        <!-- Right list news -->
-        <div class="mix-col">
-          @foreach($col2Posts as $post)
-            <a href="{{ route('news.show', $post->slug) }}">
-              <figure>
-                @if($post->thumbnailImage || $post->featuredImage)
-                  <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                @else
-                  <div class="art art{{ ($sectionIndex * 3 + $loop->iteration + 4) % 10 + 1 }}"></div>
-                @endif
-              </figure>
-              <span class="cat-chip {{ $chipColor }}">{{ $section->name }}</span>
-              <h5>{{ $post->title }}</h5>
-            </a>
-          @endforeach
+          <!-- Row 2: 3 Columns (Image top, Title below) -->
+          @if ($row2Posts->count() > 0)
+            <div class="cat-row-2">
+              @foreach ($row2Posts as $post)
+                <div class="cat-card-style-2">
+                  <div class="card-img">
+                    <a href="{{ route('news.show', $post->slug) }}">
+                      @if ($post->thumbnailImage || $post->featuredImage)
+                        <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
+                      @else
+                        <div class="art art{{ $loop->iteration + 2 }} w-100 h-100"></div>
+                      @endif
+                      @if ($post->video_url)
+                        <div class="play-indicator"></div>
+                      @endif
+                    </a>
+                  </div>
+                  <div class="card-content">
+                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                    <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          @endif
+
+          <!-- Row 3: 3 Columns (Text-only news) -->
+          @php
+            $row3Posts = $posts->slice(5, 3);
+          @endphp
+          @if ($row3Posts->count() > 0)
+            <div class="cat-row-3">
+              @foreach ($row3Posts as $post)
+                <div class="cat-card-style-3">
+                  <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                  <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                </div>
+              @endforeach
+            </div>
+          @endif
+
         </div>
-      </div>
+      @endif
     @endforeach
 
   </main>
