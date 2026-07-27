@@ -195,3 +195,62 @@ test('admin can toggle on and off trending_news, editor_choice, and is_latest', 
     expect($news->editor_choice)->toBeFalse();
     expect($news->is_latest)->toBeFalse();
 });
+
+test('when 9 trending articles exist setting a 10th automatically turns off the oldest trending article', function () {
+    $admin = User::create([
+        'name' => 'Admin User 2',
+        'email' => 'admin2@newsportal.com',
+        'password' => bcrypt('password')
+    ]);
+    $admin->roles()->attach(Role::where('slug', 'super-admin')->first());
+
+    $category = Category::create([
+        'name' => 'Sports',
+        'slug' => 'sports-test',
+        'status' => true,
+        'sort_order' => 1
+    ]);
+
+    $author = Author::create([
+        'name' => 'Reporter',
+        'username' => 'reporter',
+        'email' => 'reporter@newsportal.com',
+        'status' => true
+    ]);
+
+    // Create 9 trending news articles
+    $trendingArticles = [];
+    for ($i = 1; $i <= 9; $i++) {
+        $trendingArticles[] = News::create([
+            'title' => "Trending Article {$i}",
+            'slug' => "trending-article-{$i}",
+            'category_id' => $category->id,
+            'author_id' => $author->id,
+            'short_description' => 'Summary',
+            'content' => '<p>Content</p>',
+            'status' => 'published',
+            'trending_news' => true,
+            'created_at' => now()->subMinutes(100 - $i),
+        ]);
+    }
+
+    // Now create a 10th article with trending_news = true
+    $response = $this->actingAs($admin)->post(route('admin.news.store'), [
+        'title' => 'Trending Article 10',
+        'slug' => 'trending-article-10',
+        'category_id' => $category->id,
+        'author_id' => $author->id,
+        'short_description' => 'Summary 10',
+        'content' => '<p>Content</p>',
+        'status' => 'published',
+        'trending_news' => '1',
+    ]);
+
+    $response->assertRedirect(route('admin.news.index'));
+
+    // The oldest trending article (#1) should now have trending_news = false
+    expect($trendingArticles[0]->fresh()->trending_news)->toBeFalse();
+
+    // Total active trending articles in DB should remain 9
+    expect(News::where('trending_news', true)->count())->toBe(9);
+});

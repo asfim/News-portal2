@@ -291,9 +291,17 @@
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-semibold text-dark small" for="breaking_news">Breaking
                                     News Alert</label>
+                                @php
+                                  $breakingCount = \App\Models\News::where('breaking_news', true)->count();
+                                @endphp
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="breaking_news"
-                                    name="breaking_news" value="1" {{ old('breaking_news') ? 'checked' : '' }}>
+                                    name="breaking_news" value="1"
+                                    {{ $breakingCount >= 11 ? 'disabled' : '' }}
+                                    {{ old('breaking_news') ? 'checked' : '' }}>
+                                @if($breakingCount >= 11)
+                                  <small class="text-danger d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ১১টি ব্রেকিং নিউজ সচল রয়েছে। নতুন ব্রেকিং নিউজ সচল করতে আগে অন্য কোনো খবর এডিট করে এটি বন্ধ করুন।</small>
+                                @endif
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
@@ -306,10 +314,15 @@
 
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-semibold text-dark small" for="trending_news">Trending
-                                    Article</label>
+                                    Article (Max 9)</label>
+                                @php
+                                  $trendingCount = \App\Models\News::where('trending_news', true)->count();
+                                @endphp
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="trending_news"
-                                    name="trending_news" value="1" {{ old('trending_news') ? 'checked' : '' }}>
+                                    name="trending_news" value="1"
+                                    {{ old('trending_news') ? 'checked' : '' }}>
+                                <small class="text-secondary d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ ট্রেন্ডিং হিসেবে রাখা যাবে। ৯টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
@@ -323,9 +336,17 @@
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-bold text-danger small" for="is_latest">Latest News (Max
                                     9)</label>
+                                @php
+                                  $latestCount = \App\Models\News::where('is_latest', true)->count();
+                                @endphp
                                 <input class="form-check-input ms-0 border-danger float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="is_latest" name="is_latest"
-                                    value="1" {{ old('is_latest') ? 'checked' : '' }}>
+                                    value="1"
+                                    {{ $latestCount >= 9 ? 'disabled' : '' }}
+                                    {{ old('is_latest') ? 'checked' : '' }}>
+                                @if($latestCount >= 9)
+                                  <small class="text-danger d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ Latest হিসেবে সচল রয়েছে। নতুন সচল করতে আগে অন্য কোনো খবর এডিট করে এটি বন্ধ করুন।</small>
+                                @endif
                             </div>
                         </div>
                     </div>

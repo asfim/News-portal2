@@ -394,8 +394,8 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
 
 .sports-bottom-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  column-gap: 30px;
   row-gap: 20px;
   border-top: 1px solid var(--line);
   margin-top: 18px;
@@ -406,10 +406,10 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
   flex-direction: column;
   position: relative;
 }
-.sports-bottom-grid .sports-grid-card:first-child::after {
+.sports-bottom-grid .sports-grid-card:not(:last-child)::after {
   content: "";
   position: absolute;
-  right: -20px;
+  right: -15px;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -466,6 +466,16 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
 .sports-side-list {
   display: flex;
   flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.sports-side-list::-webkit-scrollbar {
+  width: 4px;
+}
+.sports-side-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
 }
 .sports-side-card {
   display: flex;

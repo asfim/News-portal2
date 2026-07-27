@@ -90,6 +90,16 @@ class NewsController extends Controller
             }
         }
 
+        if ($data['trending_news']) {
+            $existingTrending = News::where('trending_news', true)->orderBy('created_at', 'asc')->get();
+            if ($existingTrending->count() >= 9) {
+                $excessCount = $existingTrending->count() - 8;
+                foreach ($existingTrending->take($excessCount) as $oldItem) {
+                    $oldItem->update(['trending_news' => false]);
+                }
+            }
+        }
+
         // Handle publish_at scheduling
         if ($data['status'] === 'scheduled' && !empty($data['publish_at'])) {
             $data['publish_at'] = Carbon::parse($data['publish_at']);
@@ -170,6 +180,18 @@ class NewsController extends Controller
             }
         } else {
             $data['breaking_news'] = false;
+        }
+
+        if ($data['trending_news']) {
+            $existingTrending = News::where('trending_news', true)->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
+            if ($existingTrending->count() >= 9) {
+                $excessCount = $existingTrending->count() - 8;
+                foreach ($existingTrending->take($excessCount) as $oldItem) {
+                    $oldItem->update(['trending_news' => false]);
+                }
+            }
+        } else {
+            $data['trending_news'] = false;
         }
 
         // Handle publish_at scheduling

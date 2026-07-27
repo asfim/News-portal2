@@ -25,14 +25,14 @@ class HomeController extends Controller
 
         $categorySections = Category::whereIn('slug', $selectedCats)
             ->with(['news' => function ($query) {
-                $query->published()->featured()->latest()->take(8);
+                $query->published()->orderBy('featured_news', 'desc')->latest()->take(9);
             }])->get();
 
         // Video News
         $videoNews = News::published()->whereNotNull('video_url')->latest()->take(6)->get();
 
         // Get trending news
-        $trending = News::published()->trending()->with('category')->take(5)->get();
+        $trending = News::published()->trending()->with('category')->take(9)->get();
         
         // Get most read news (order by views)
         $mostRead = News::published()->orderBy('views', 'desc')->with('category')->take(5)->get();
