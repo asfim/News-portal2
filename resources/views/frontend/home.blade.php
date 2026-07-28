@@ -556,21 +556,7 @@
 
                         <!-- Sidebar Content (Right) -->
                         <div class="sports-sidebar">
-                            <!-- Ad Slot / Mock Ad -->
-                            <div class="sports-ad">
-                                @if (function_exists('renderAdSlot') && !empty(renderAdSlot('sports_sidebar')))
-                                    {!! renderAdSlot('sports_sidebar') !!}
-                                @else
-                                    <div class="mock-sports-ad">
-                                        <div class="ad-tag">ADVERTISEMENT</div>
-                                        <div class="ad-content-box">
-                                            <span class="fw-bold d-block mb-1 text-success">Resort Booking open!</span>
-                                            <span class="small text-secondary">Enjoy Evergreen Eco Resort</span>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-
+                       
                             @if ($sidebarPosts->count() > 0)
                                 <div class="sports-side-list">
                                     @foreach ($sidebarPosts as $post)
