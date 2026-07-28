@@ -664,9 +664,23 @@
                         @if ($row3Posts->count() > 0)
                             <div class="cat-row-3">
                                 @foreach ($row3Posts as $post)
-                                    <div class="cat-card-style-3">
-                                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
-                                        <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                                    <div class="cat-card-style-2">
+                                        <div class="card-img">
+                                            <a href="{{ route('news.show', $post->slug) }}">
+                                                @if ($post->thumbnailImage || $post->featuredImage)
+                                                    <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
+                                                @else
+                                                    <div class="art art{{ $loop->iteration + 5 }} w-100 h-100"></div>
+                                                @endif
+                                                @if ($post->video_url)
+                                                    <div class="play-indicator"></div>
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="card-content">
+                                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                                            <span class="time">{{ $post->created_at->diffForHumans() }}</span>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
