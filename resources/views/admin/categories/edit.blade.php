@@ -122,7 +122,7 @@
         let name = this.value;
         let slug = name.toLowerCase()
             .trim()
-            .replace(/[^a-z0-9\s-]/g, '') // remove special characters
+            .replace(/[^\w\s\u0980-\u09FF-]/g, '') // remove special characters
             .replace(/\s+/g, '-')         // replace spaces with hyphens
             .replace(/-+/g, '-');         // remove duplicate hyphens
         document.getElementById('slug').value = slug;

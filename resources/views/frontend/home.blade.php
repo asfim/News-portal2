@@ -470,11 +470,21 @@
                     }
                 @endphp
 
-                @if ($section->slug === 'sports')
+                @if ($section->layout_type === 'sports')
                     <!-- Special Sports Section Layout -->
-                    <div class="sec-head">
-                        <h3 class="sports-title"><span class="blue-dot"></span>{{ $section->name }}</h3>
-                        <a class="more" href="{{ route('category', $section->slug) }}">সব দেখুন ›</a>
+                    <div class="sec-head-ribbon">
+                        <div class="left-side">
+                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
+                            @if($section->children->count() > 0)
+                                <div class="sub-cats">
+                                    @foreach($section->children->take(5) as $child)
+                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
+                                    @endforeach
+                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
+                                </div>
+                            @endif
+                        </div>
+                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
                     </div>
 
                     <div class="sports-layout">
@@ -588,9 +598,19 @@
                     </div>
                 @else
                     <!-- Standard Category Layout (2-row structure) -->
-                    <div class="sec-head">
-                        <h3>{{ $section->name }}</h3>
-                        <a class="more" href="{{ route('category', $section->slug) }}">সব দেখুন ›</a>
+                    <div class="sec-head-ribbon">
+                        <div class="left-side">
+                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
+                            @if($section->children->count() > 0)
+                                <div class="sub-cats">
+                                    @foreach($section->children->take(5) as $child)
+                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
+                                    @endforeach
+                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
+                                </div>
+                            @endif
+                        </div>
+                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
                     </div>
 
                     <div class="category-section-layout">

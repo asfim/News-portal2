@@ -20,7 +20,8 @@ class SubcategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $subcategoryId = $this->route('subcategory')?->id;
+        $subcategory = $this->route('subcategory');
+        $subcategoryId = is_object($subcategory) ? $subcategory->id : $subcategory;
 
         return [
             'parent_id' => [

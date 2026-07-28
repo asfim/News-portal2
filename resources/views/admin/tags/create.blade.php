@@ -74,7 +74,7 @@
         let name = this.value;
         let slug = name.toLowerCase()
             .trim()
-            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/[^\w\s\u0980-\u09FF-]/g, '')
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-');
         document.getElementById('slug').value = slug;
