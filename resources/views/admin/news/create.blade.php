@@ -315,12 +315,12 @@
 
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-semibold text-dark small" for="trending_news">Trending
-                                    Article (Max 9)</label>
+                                    Article (Max 7)</label>
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="trending_news"
                                     name="trending_news" value="1"
                                     {{ old('trending_news') ? 'checked' : '' }}>
-                                <small class="text-secondary mt-1 d-none" id="trendingWarningText" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ ট্রেন্ডিং হিসেবে রাখা যাবে। ৯টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
+                                <small class="text-secondary mt-1 d-none" id="trendingWarningText" style="font-size: 11px;">সর্বোচ্চ ৭টি নিউজ ট্রেন্ডিং হিসেবে রাখা যাবে। ৭টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">

@@ -488,7 +488,7 @@
                                 ->where('category_id', $section->id)
                                 ->where('trending_news', 1)
                                 ->latest()
-                                ->take(9)
+                                ->take(7)
                                 ->get();
 
                             // Get bottom grid posts (excluding hero post so no duplicate card in main area)

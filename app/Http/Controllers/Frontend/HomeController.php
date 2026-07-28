@@ -32,7 +32,7 @@ class HomeController extends Controller
         $videoNews = News::published()->whereNotNull('video_url')->latest()->take(6)->get();
 
         // Get trending news
-        $trending = News::published()->trending()->with('category')->take(9)->get();
+        $trending = News::published()->trending()->with('category')->take(7)->get();
         
         // Get most read news (order by views)
         $mostRead = News::published()->orderBy('views', 'desc')->with('category')->take(5)->get();
