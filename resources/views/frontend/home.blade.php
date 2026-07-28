@@ -489,10 +489,16 @@
             @foreach ($categorySections as $sectionIndex => $section)
                 @php
                     $posts = $section->news;
+                    // Convert hyphens to underscores and fall back to layout_1
+                    $rawLayout = str_replace('-', '_', $section->layout_type ?: 'layout_1');
+                    // Only allow known layouts
+                    $allowedLayouts = ['layout_1', 'layout_2', 'sports', 'standard'];
+                    $layoutType = in_array($rawLayout, $allowedLayouts) ? $rawLayout : 'layout_1';
                     if ($posts->isEmpty()) {
                         continue;
                     }
                 @endphp
+
 
                 <div class="sec-head-ribbon">
                     <div class="left-side">
@@ -500,9 +506,9 @@
                         @if($section->children->count() > 0)
                             <div class="sub-cats">
                                 @foreach($section->children->take(5) as $child)
-                                    <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type }}" onclick="loadCategoryNews(this)">{{ $child->name }}</button>
+                                    <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type ?: 'layout-1' }}" onclick="loadCategoryNews(this)">{{ $child->name }}</button>
                                 @endforeach
-                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type }}" onclick="loadCategoryNews(this)">সকল</button>
+                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $layoutType }}" onclick="loadCategoryNews(this)">{{ __('messages.all') }}</button>
                             </div>
                         @endif
                     </div>
@@ -510,7 +516,7 @@
                 </div>
 
                 <div id="category-content-{{ $section->id }}" class="category-content-wrapper position-relative" style="min-height: 200px;">
-                    @include('frontend.partials.layouts.' . $section->layout_type, ['posts' => $posts, 'categoryId' => $section->id])
+                    @include('frontend.partials.layouts.' . $layoutType, ['posts' => $posts, 'categoryId' => $section->id])
                 </div>
             @endforeach
 

@@ -37,7 +37,7 @@
 <div class="logo-row">
     <div class="wrap">
         <div class="search" style="cursor:pointer;" onclick="location.href='{{ route('search') }}'">
-            <i class="fa-solid fa-magnifying-glass me-1"></i> খুঁজুন
+            <i class="fa-solid fa-magnifying-glass me-1"></i> {{ __('messages.search') }}
         </div>
         <div class="brand">
             <a href="{{ route('home') }}">
@@ -45,15 +45,25 @@
             </a>
         </div>
         <div class="right-actions">
+            {{-- Desktop right slot --}}
         </div>
+        {{-- Mobile: hamburger + search icon --}}
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
+        </button>
     </div>
 </div>
+
 
 <script>
     function toggleMobileMenu() {
         const nav = document.querySelector('nav.cat-nav');
+        const icon = document.getElementById('mobileMenuIcon');
         if (nav) {
-            nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+            const isOpen = nav.classList.toggle('mobile-open');
+            if (icon) {
+                icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+            }
         }
     }
 </script>

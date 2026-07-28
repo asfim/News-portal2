@@ -199,7 +199,11 @@ class HomeController extends Controller
             ->take(9)
             ->get();
 
-        $viewName = 'frontend.partials.layouts.' . $layoutType;
+        $rawLayout = str_replace('-', '_', $layoutType ?: 'layout_1');
+        $allowedLayouts = ['layout_1', 'layout_2', 'sports', 'standard'];
+        $layout = in_array($rawLayout, $allowedLayouts) ? $rawLayout : 'layout_1';
+
+        $viewName = 'frontend.partials.layouts.' . $layout;
         
         if (view()->exists($viewName)) {
             return view($viewName, ['posts' => $posts, 'categoryId' => $id])->render();
@@ -208,3 +212,4 @@ class HomeController extends Controller
         return '<div class="text-center py-4 text-danger">Layout not found</div>';
     }
 }
+
