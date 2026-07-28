@@ -324,14 +324,6 @@
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
-                                <label class="form-check-label fw-semibold text-dark small" for="editor_choice">Editor's
-                                    Pick</label>
-                                <input class="form-check-input ms-0 border-secondary-subtle float-end"
-                                    style="width: 2.2em; height: 1.1em;" type="checkbox" id="editor_choice"
-                                    name="editor_choice" value="1" {{ old('editor_choice') ? 'checked' : '' }}>
-                            </div>
-
-                            <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-bold text-danger small" for="is_latest">Latest News (Max
                                     9)</label>
                                 @php

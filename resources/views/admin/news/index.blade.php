@@ -148,11 +148,7 @@
                                                     <span class="badge bg-warning text-dark py-1 px-2"
                                                         style="font-size: 0.7rem;">Trending</span>
                                                 @endif
-                                                @if ($item->editor_choice)
-                                                    <span class="badge bg-info text-dark py-1 px-2"
-                                                        style="font-size: 0.7rem;">Editor Choice</span>
-                                                @endif
-                                                @if (!$item->breaking_news && !$item->featured_news && !$item->trending_news && !$item->editor_choice)
+                                                @if (!$item->breaking_news && !$item->featured_news && !$item->trending_news)
                                                     <span class="text-secondary small">Standard</span>
                                                 @endif
                                             </div>
