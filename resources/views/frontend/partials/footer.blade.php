@@ -23,19 +23,26 @@
         <div>
             <h5>প্রতিষ্ঠান</h5>
             <ul>
-                <li><a href="{{ route('page.show', 'about-us') }}">আমাদের সম্পর্কে</a></li>
-                <li><a href="{{ route('page.show', 'contact') }}">যোগাযোগ</a></li>
-                <li><a href="{{ route('page.show', 'ad-pricing') }}">বিজ্ঞাপন</a></li>
-                <li><a href="{{ route('page.show', 'privacy-policy') }}">নীতিমালা</a></li>
+                @foreach(\App\Models\Page::where('status', true)->get() as $page)
+                    <li><a href="{{ route('page.show', $page->slug) }}">{{ $page->title }}</a></li>
+                @endforeach
             </ul>
         </div>
         <div>
             <h5>সামাজিক মাধ্যম</h5>
-            <ul>
-                <li><a href="{{ \App\Models\Setting::get('facebook', '#') }}" target="_blank">ফেসবুক</a></li>
-                <li><a href="{{ \App\Models\Setting::get('youtube', '#') }}" target="_blank">ইউটিউব</a></li>
-                <li><a href="{{ \App\Models\Setting::get('instagram', '#') }}" target="_blank">ইনস্টাগ্রাম</a></li>
-                <li><a href="{{ \App\Models\Setting::get('twitter', '#') }}" target="_blank">টুইটার</a></li>
+            <ul style="flex-direction: row; gap: 15px;">
+                @if(\App\Models\Setting::get('facebook'))
+                    <li><a href="{{ \App\Models\Setting::get('facebook') }}" target="_blank" title="ফেসবুক"><i class="fa-brands fa-facebook fa-xl"></i></a></li>
+                @endif
+                @if(\App\Models\Setting::get('youtube'))
+                    <li><a href="{{ \App\Models\Setting::get('youtube') }}" target="_blank" title="ইউটিউব"><i class="fa-brands fa-youtube fa-xl"></i></a></li>
+                @endif
+                @if(\App\Models\Setting::get('instagram'))
+                    <li><a href="{{ \App\Models\Setting::get('instagram') }}" target="_blank" title="ইনস্টাগ্রাম"><i class="fa-brands fa-instagram fa-xl"></i></a></li>
+                @endif
+                @if(\App\Models\Setting::get('twitter'))
+                    <li><a href="{{ \App\Models\Setting::get('twitter') }}" target="_blank" title="টুইটার"><i class="fa-brands fa-twitter fa-xl"></i></a></li>
+                @endif
             </ul>
         </div>
     </div>
