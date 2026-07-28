@@ -479,9 +479,11 @@
 
                     <div class="sports-layout">
                         @php
-                            $heroPost = $posts->first();
+                            // Filter posts to only include those with featured_news = true
+                            $featuredPosts = $posts->where('featured_news', 1);
+                            $heroPost = $featuredPosts->first();
 
-                            // Get ALL trending posts for this category (category_id = $section->id AND trending_news = 1)
+                            // Get ONLY articles where trending_news = 1 for this category
                             $sidebarPosts = \App\Models\News::published()
                                 ->where('category_id', $section->id)
                                 ->where('trending_news', 1)
@@ -489,21 +491,14 @@
                                 ->take(9)
                                 ->get();
 
-                            // Get bottom grid posts (excluding hero and sidebar posts so no duplicate cards)
-                            $usedIds = collect([$heroPost ? $heroPost->id : null])
-                                ->merge($sidebarPosts->pluck('id'))
-                                ->filter();
-                            $bottomLimit = $posts->count() >= 6 ? 3 : 2;
-                            $mainBottomPosts = $posts
+                            // Get bottom grid posts (excluding hero post so no duplicate card in main area)
+                            $usedIds = collect([$heroPost ? $heroPost->id : null])->filter();
+                            $bottomLimit = 3;
+                            $mainBottomPosts = $featuredPosts
                                 ->reject(function ($p) use ($usedIds) {
                                     return $usedIds->contains($p->id);
                                 })
                                 ->take($bottomLimit);
-
-                            // Fallback if not enough non-duplicate posts available
-                            if ($mainBottomPosts->isEmpty() && $posts->count() > 1) {
-                                $mainBottomPosts = $posts->slice(1, $bottomLimit);
-                            }
                         @endphp
 
                         <!-- Main Content (Left) -->
@@ -616,8 +611,9 @@
 
                         <!-- Row 1: 2 Columns (Title & description left, Image right) -->
                         @php
-                            $row1Posts = $posts->take(2);
-                            $row2Posts = $posts->slice(2, 3);
+                            $featuredPosts = $posts->where('featured_news', 1);
+                            $row1Posts = $featuredPosts->take(2);
+                            $row2Posts = $featuredPosts->slice(2, 3);
                         @endphp
                         @if ($row1Posts->count() > 0)
                             <div class="cat-row-1">
@@ -677,7 +673,7 @@
 
                         <!-- Row 3: 3 Columns (Text-only news) -->
                         @php
-                            $row3Posts = $posts->slice(5, 3);
+                            $row3Posts = $featuredPosts->slice(5, 3);
                         @endphp
                         @if ($row3Posts->count() > 0)
                             <div class="cat-row-3">

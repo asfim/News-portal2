@@ -91,11 +91,25 @@ class NewsController extends Controller
         }
 
         if ($data['trending_news']) {
-            $existingTrending = News::where('trending_news', true)->orderBy('created_at', 'asc')->get();
+            $existingTrending = News::where('trending_news', true)
+                ->where('category_id', $data['category_id'])
+                ->orderBy('created_at', 'asc')->get();
             if ($existingTrending->count() >= 9) {
                 $excessCount = $existingTrending->count() - 8;
                 foreach ($existingTrending->take($excessCount) as $oldItem) {
                     $oldItem->update(['trending_news' => false]);
+                }
+            }
+        }
+
+        if ($data['featured_news']) {
+            $existingFeatured = News::where('featured_news', true)
+                ->where('category_id', $data['category_id'])
+                ->orderBy('created_at', 'asc')->get();
+            if ($existingFeatured->count() >= 4) {
+                $excessCount = $existingFeatured->count() - 3;
+                foreach ($existingFeatured->take($excessCount) as $oldItem) {
+                    $oldItem->update(['featured_news' => false]);
                 }
             }
         }
@@ -183,7 +197,9 @@ class NewsController extends Controller
         }
 
         if ($data['trending_news']) {
-            $existingTrending = News::where('trending_news', true)->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
+            $existingTrending = News::where('trending_news', true)
+                ->where('category_id', $data['category_id'])
+                ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
             if ($existingTrending->count() >= 9) {
                 $excessCount = $existingTrending->count() - 8;
                 foreach ($existingTrending->take($excessCount) as $oldItem) {
@@ -192,6 +208,20 @@ class NewsController extends Controller
             }
         } else {
             $data['trending_news'] = false;
+        }
+
+        if ($data['featured_news']) {
+            $existingFeatured = News::where('featured_news', true)
+                ->where('category_id', $data['category_id'])
+                ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
+            if ($existingFeatured->count() >= 4) {
+                $excessCount = $existingFeatured->count() - 3;
+                foreach ($existingFeatured->take($excessCount) as $oldItem) {
+                    $oldItem->update(['featured_news' => false]);
+                }
+            }
+        } else {
+            $data['featured_news'] = false;
         }
 
         // Handle publish_at scheduling

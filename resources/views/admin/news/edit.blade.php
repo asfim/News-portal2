@@ -340,19 +340,17 @@
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="featured_news"
                                     name="featured_news" value="1"
                                     {{ old('featured_news', $news->featured_news) ? 'checked' : '' }}>
+                                <small class="text-secondary d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৪টি নিউজ Featured হিসেবে রাখা যাবে। ৪টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
                                 <label class="form-check-label fw-semibold text-dark small" for="trending_news">Trending
                                     Article (Max 9)</label>
-                                @php
-                                  $trendingCount = \App\Models\News::where('trending_news', true)->where('id', '!=', $news->id)->count();
-                                @endphp
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="trending_news"
                                     name="trending_news" value="1"
                                     {{ old('trending_news', $news->trending_news) ? 'checked' : '' }}>
-                                <small class="text-secondary d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ ট্রেন্ডিং হিসেবে রাখা যাবে। ৯টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
+                                <small class="text-secondary mt-1 d-none" id="trendingWarningText" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ ট্রেন্ডিং হিসেবে রাখা যাবে। ৯টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
@@ -455,11 +453,27 @@
                 document.getElementById('slug').value = slug;
             });
 
-            // 3. Category change reloads subcategories
+            // 3. Category change reloads subcategories and toggles trending text
             const categorySelect = document.getElementById('category_id');
             const subcategorySelect = document.getElementById('subcategory_id');
+            const trendingWarningText = document.getElementById('trendingWarningText');
+
+            function toggleTrendingWarning() {
+                if (trendingWarningText && categorySelect.selectedIndex >= 0) {
+                    const selectedText = categorySelect.options[categorySelect.selectedIndex].text.trim();
+                    if (selectedText === 'খেলা') {
+                        trendingWarningText.classList.remove('d-none');
+                        trendingWarningText.classList.add('d-block');
+                    } else {
+                        trendingWarningText.classList.remove('d-block');
+                        trendingWarningText.classList.add('d-none');
+                    }
+                }
+            }
 
             categorySelect.addEventListener('change', function() {
+                toggleTrendingWarning();
+
                 const catId = this.value;
                 subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
                 if (!catId) return;
@@ -475,6 +489,8 @@
                         });
                     });
             });
+            
+            toggleTrendingWarning(); // Run on initial load
 
             // 4. Scheduling Visibility Switcher
             const statusSelect = document.getElementById('status');
