@@ -45,6 +45,7 @@ class CategoryRequest extends FormRequest
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
             'status' => ['nullable', 'boolean'],
+            'layout_type' => ['nullable', 'string', 'in:standard,layout_1,layout_2,sports'],
             'sort_order' => ['required', 'integer', 'min:0'],
         ];
     }

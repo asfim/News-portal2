@@ -43,7 +43,10 @@ class HomeController extends Controller
         // Get Breaking News for the sidebar
         $breaking = News::published()->breaking()->latest()->take(12)->get();
 
-        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews', 'breaking'));
+        // Get Active Advertisements
+        $advertisements = \App\Models\Advertisement::active()->get()->groupBy('placement_key');
+
+        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews', 'breaking', 'advertisements'));
     }
 
     public function showNews($slug)

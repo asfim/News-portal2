@@ -66,6 +66,16 @@
                             <h5 class="fw-bold text-dark mb-4">Display Options</h5>
 
                             <div class="mb-4">
+                                <label for="layout_type" class="form-label fw-semibold text-secondary">Layout Type (Homepage)</label>
+                                <select class="form-select py-3" id="layout_type" name="layout_type">
+                                    <option value="standard" {{ old('layout_type', $category->layout_type) == 'standard' ? 'selected' : '' }}>Standard Layout</option>
+                                    <option value="layout_1" {{ old('layout_type', $category->layout_type) == 'layout_1' ? 'selected' : '' }}>Layout 1 (Big Left, List Right)</option>
+                                    <option value="layout_2" {{ old('layout_type', $category->layout_type) == 'layout_2' ? 'selected' : '' }}>Layout 2 (Middle Big, Sides Grid)</option>
+                                    <option value="sports" {{ old('layout_type', $category->layout_type) == 'sports' ? 'selected' : '' }}>Sports Layout</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
                                 <label for="icon" class="form-label fw-semibold text-secondary">FontAwesome Icon Class</label>
                                 <input type="text" class="form-control py-3" id="icon" name="icon" value="{{ old('icon', $category->icon) }}" placeholder="fa-solid fa-sports">
                             </div>

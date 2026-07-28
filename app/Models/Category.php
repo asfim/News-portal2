@@ -21,6 +21,7 @@ class Category extends Model
         'meta_title',
         'meta_description',
         'status',
+        'layout_type',
         'sort_order',
     ];
 
