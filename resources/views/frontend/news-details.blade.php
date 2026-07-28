@@ -46,15 +46,13 @@
                 </div>
 
                 <!-- Reading Accessibility Actions -->
-                <div class="d-flex align-items-center justify-content-between p-2 mb-4 rounded-3 bg-body-tertiary border">
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="small fw-bold text-muted me-2">ফন্ট সাইজ:</span>
-                        <button onclick="adjustFont(-1)" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px;">A-</button>
-                        <button onclick="adjustFont(1)" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:32px; height:32px;">A+</button>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa-regular fa-bookmark"></i> সেভ করুন</button>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="window.print()"><i class="fa-solid fa-print"></i> প্রিন্ট</button>
+                <div class="d-flex align-items-center justify-content-end p-2 mb-4 rounded-3 bg-body-tertiary border">
+                    <div class="d-flex gap-2 align-items-center">
+                        <span class="small fw-bold text-muted me-1">শেয়ার:</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}" target="_blank" class="btn btn-sm btn-outline-info rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-success rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-whatsapp"></i></a>
+                        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="window.print()"><i class="fa-solid fa-print"></i> প্রিন্ট</button>
                     </div>
                 </div>
 
