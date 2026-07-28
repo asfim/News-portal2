@@ -334,18 +334,18 @@
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
-                                <label class="form-check-label fw-semibold text-dark small" for="featured_news">Homepage
+                                <label class="form-check-label fw-semibold text-dark small" for="featured_news" id="featured_news_label">Homepage
                                     Featured Block</label>
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="featured_news"
                                     name="featured_news" value="1"
                                     {{ old('featured_news', $news->featured_news) ? 'checked' : '' }}>
-                                <small class="text-secondary d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৪টি নিউজ Featured হিসেবে রাখা যাবে। ৪টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
+                                <small class="text-secondary d-none mt-1" id="featuredWarningText" style="font-size: 11px;">সর্বোচ্চ ৪টি নিউজ Featured হিসেবে রাখা যাবে। ৪টি পূর্ণ হলে নতুনটি সচল করলে সবচেয়ে পুরোনোটি স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে।</small>
                             </div>
 
                             <div class="form-check form-switch ps-0 mb-3">
-                                <label class="form-check-label fw-semibold text-dark small" for="trending_news">Trending
-                                    Article (Max 7)</label>
+                                <label class="form-check-label fw-semibold text-dark small" for="trending_news" id="trending_news_label">Trending
+                                    Article</label>
                                 <input class="form-check-input ms-0 border-secondary-subtle float-end"
                                     style="width: 2.2em; height: 1.1em;" type="checkbox" id="trending_news"
                                     name="trending_news" value="1"
@@ -565,6 +565,48 @@
                 document.getElementById(mediaTarget + '_placeholder').classList.add('d-none');
                 selectMediaModal.hide();
             });
+            // Custom limit logic based on category
+            const categorySelectMain = document.getElementById('category_id');
+            const featuredLabel = document.getElementById('featured_news_label');
+            const featuredWarning = document.getElementById('featuredWarningText');
+            const trendingLabel = document.getElementById('trending_news_label');
+            const trendingWarning = document.getElementById('trendingWarningText');
+
+            function updateCategoryLimits() {
+                if (!categorySelectMain) return;
+                const isSports = categorySelectMain.value == '5';
+
+                if (isSports) {
+                    if (featuredLabel) featuredLabel.innerText = "Homepage Featured Block (Max 4)";
+                    if (featuredWarning) {
+                        featuredWarning.classList.remove('d-none');
+                        featuredWarning.classList.add('d-block');
+                    }
+
+                    if (trendingLabel) trendingLabel.innerText = "Trending Article (Max 7)";
+                    if (trendingWarning) {
+                        trendingWarning.classList.remove('d-none');
+                        trendingWarning.classList.add('d-block');
+                    }
+                } else {
+                    if (featuredLabel) featuredLabel.innerText = "Homepage Featured Block";
+                    if (featuredWarning) {
+                        featuredWarning.classList.add('d-none');
+                        featuredWarning.classList.remove('d-block');
+                    }
+
+                    if (trendingLabel) trendingLabel.innerText = "Trending Article";
+                    if (trendingWarning) {
+                        trendingWarning.classList.add('d-none');
+                        trendingWarning.classList.remove('d-block');
+                    }
+                }
+            }
+
+            if (categorySelectMain) {
+                categorySelectMain.addEventListener('change', updateCategoryLimits);
+                updateCategoryLimits();
+            }
         });
     </script>
 @endsection

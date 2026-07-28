@@ -90,9 +90,9 @@ class NewsController extends Controller
             }
         }
 
-        if ($data['trending_news']) {
+        if ($data['trending_news'] && $data['category_id'] == 5) {
             $existingTrending = News::where('trending_news', true)
-                ->where('category_id', $data['category_id'])
+                ->where('category_id', 5)
                 ->orderBy('created_at', 'asc')->get();
             if ($existingTrending->count() >= 7) {
                 $excessCount = $existingTrending->count() - 6;
@@ -102,9 +102,9 @@ class NewsController extends Controller
             }
         }
 
-        if ($data['featured_news']) {
+        if ($data['featured_news'] && $data['category_id'] == 5) {
             $existingFeatured = News::where('featured_news', true)
-                ->where('category_id', $data['category_id'])
+                ->where('category_id', 5)
                 ->orderBy('created_at', 'asc')->get();
             if ($existingFeatured->count() >= 4) {
                 $excessCount = $existingFeatured->count() - 3;
@@ -197,13 +197,15 @@ class NewsController extends Controller
         }
 
         if ($data['trending_news']) {
-            $existingTrending = News::where('trending_news', true)
-                ->where('category_id', $data['category_id'])
-                ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
-            if ($existingTrending->count() >= 7) {
-                $excessCount = $existingTrending->count() - 6;
-                foreach ($existingTrending->take($excessCount) as $oldItem) {
-                    $oldItem->update(['trending_news' => false]);
+            if ($data['category_id'] == 5) {
+                $existingTrending = News::where('trending_news', true)
+                    ->where('category_id', 5)
+                    ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
+                if ($existingTrending->count() >= 7) {
+                    $excessCount = $existingTrending->count() - 6;
+                    foreach ($existingTrending->take($excessCount) as $oldItem) {
+                        $oldItem->update(['trending_news' => false]);
+                    }
                 }
             }
         } else {
@@ -211,13 +213,15 @@ class NewsController extends Controller
         }
 
         if ($data['featured_news']) {
-            $existingFeatured = News::where('featured_news', true)
-                ->where('category_id', $data['category_id'])
-                ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
-            if ($existingFeatured->count() >= 4) {
-                $excessCount = $existingFeatured->count() - 3;
-                foreach ($existingFeatured->take($excessCount) as $oldItem) {
-                    $oldItem->update(['featured_news' => false]);
+            if ($data['category_id'] == 5) {
+                $existingFeatured = News::where('featured_news', true)
+                    ->where('category_id', 5)
+                    ->where('id', '!=', $news->id)->orderBy('created_at', 'asc')->get();
+                if ($existingFeatured->count() >= 4) {
+                    $excessCount = $existingFeatured->count() - 3;
+                    foreach ($existingFeatured->take($excessCount) as $oldItem) {
+                        $oldItem->update(['featured_news' => false]);
+                    }
                 }
             }
         } else {
