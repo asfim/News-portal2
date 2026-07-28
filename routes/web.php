@@ -30,6 +30,7 @@ Route::get('/latest-news', [HomeController::class, 'latestNews'])->name('news.la
 Route::get('/quick-news', [HomeController::class, 'quickNews'])->name('news.quick');
 Route::get('/news/{slug}', [HomeController::class, 'showNews'])->name('news.show');
 Route::get('/category/{slug}', [HomeController::class, 'category'])->name('category');
+Route::get('/api/category/{id}/layout/{layout_type}', [HomeController::class, 'getCategoryNewsHtml'])->name('api.category.layout');
 Route::get('/tag/{slug}', [HomeController::class, 'tag'])->name('tag');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::post('/newsletter/subscribe', [HomeController::class, 'subscribe'])->name('newsletter.subscribe');

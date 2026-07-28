@@ -184,4 +184,27 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'আপনার বার্তাটি সফলভাবে পাঠানো হয়েছে। আমরা শীঘ্রই যোগাযোগ করব।');
     }
+
+    public function getCategoryNewsHtml($id, $layoutType)
+    {
+        $category = Category::findOrFail($id);
+        
+        $posts = \App\Models\News::published()
+            ->where(function($q) use ($id) {
+                $q->where('category_id', $id)
+                  ->orWhere('subcategory_id', $id);
+            })
+            ->orderBy('featured_news', 'desc')
+            ->latest()
+            ->take(9)
+            ->get();
+
+        $viewName = 'frontend.partials.layouts.' . $layoutType;
+        
+        if (view()->exists($viewName)) {
+            return view($viewName, ['posts' => $posts, 'categoryId' => $id])->render();
+        }
+        
+        return '<div class="text-center py-4 text-danger">Layout not found</div>';
+    }
 }

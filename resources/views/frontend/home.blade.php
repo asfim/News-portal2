@@ -494,401 +494,24 @@
                     }
                 @endphp
 
-                @if ($section->layout_type === 'sports')
-                    <!-- Special Sports Section Layout -->
-                    <div class="sec-head-ribbon">
-                        <div class="left-side">
-                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
-                            @if($section->children->count() > 0)
-                                <div class="sub-cats">
-                                    @foreach($section->children->take(5) as $child)
-                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
-                                    @endforeach
-                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
-                                </div>
-                            @endif
-                        </div>
-                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
-                    </div>
-
-                    <div class="sports-layout">
-                        @php
-                            // Filter posts to only include those with featured_news = true
-                            $featuredPosts = $posts->where('featured_news', 1);
-                            $heroPost = $featuredPosts->first();
-
-                            // Get ONLY articles where trending_news = 1 for this category
-                            $sidebarPosts = \App\Models\News::published()
-                                ->where('category_id', $section->id)
-                                ->where('trending_news', 1)
-                                ->latest()
-                                ->take(7)
-                                ->get();
-
-                            // Get bottom grid posts (excluding hero post so no duplicate card in main area)
-                            $usedIds = collect([$heroPost ? $heroPost->id : null])->filter();
-                            $bottomLimit = 3;
-                            $mainBottomPosts = $featuredPosts
-                                ->reject(function ($p) use ($usedIds) {
-                                    return $usedIds->contains($p->id);
-                                })
-                                ->take($bottomLimit);
-                        @endphp
-
-                        <!-- Main Content (Left) -->
-                        <div class="sports-main">
-                            @if ($heroPost)
-                                <div class="sports-hero-card">
-                                    <a href="{{ route('news.show', $heroPost->slug) }}">
-                                        <figure class="sports-hero-img">
-                                            @if ($heroPost->thumbnailImage || $heroPost->featuredImage)
-                                                <x-news-thumbnail :news="$heroPost"
-                                                    classes="w-100 h-100 object-fit-cover" />
-                                            @else
-                                                <div class="art art1 w-100 h-100"></div>
-                                            @endif
-                                            @if ($heroPost->video_url)
-                                                <div class="play-indicator"></div>
-                                            @endif
-                                            <div class="sports-hero-overlay">
-                                                <h4>{{ $heroPost->title }}</h4>
-                                                <span class="time">{{ $heroPost->created_at->diffForHumans() }}</span>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div>
-                            @endif
-
-                            @if ($mainBottomPosts->count() > 0)
-                                <div class="sports-bottom-grid">
-                                    @foreach ($mainBottomPosts as $post)
-                                        <div class="sports-grid-card">
-                                            <div class="card-img">
-                                                <a href="{{ route('news.show', $post->slug) }}">
-                                                    @if ($post->thumbnailImage || $post->featuredImage)
-                                                        <x-news-thumbnail :news="$post"
-                                                            classes="w-100 h-100 object-fit-cover" />
-                                                    @else
-                                                        <div class="art art{{ $loop->iteration + 1 }} w-100 h-100"></div>
-                                                    @endif
-                                                    @if ($post->video_url)
-                                                        <div class="play-indicator"></div>
-                                                    @endif
-                                                </a>
-                                            </div>
-                                            <div class="card-content">
-                                                <h5><a
-                                                        href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
-                                                </h5>
-                                                <span class="time">{{ $post->created_at->diffForHumans() }}</span>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-
-                        <!-- Sidebar Content (Right) -->
-                        <div class="sports-sidebar">
-                       
-                            @if ($sidebarPosts->count() > 0)
-                                <div class="sports-side-list">
-                                    @foreach ($sidebarPosts as $post)
-                                        <div class="sports-side-card">
-                                            <div class="card-content">
-                                                <h6><a
-                                                        href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
-                                                </h6>
-                                                <span class="time">{{ $post->created_at->diffForHumans() }}</span>
-                                            </div>
-                                            <div class="card-img">
-                                                <a href="{{ route('news.show', $post->slug) }}">
-                                                    @if ($post->thumbnailImage || $post->featuredImage)
-                                                        <x-news-thumbnail :news="$post"
-                                                            classes="w-100 h-100 object-fit-cover" />
-                                                    @else
-                                                        <div class="art art{{ $loop->iteration + 3 }} w-100 h-100"></div>
-                                                    @endif
-                                                    @if ($post->video_url)
-                                                        <div class="play-indicator"></div>
-                                                    @endif
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                @elseif ($section->layout_type === 'layout_1')
-                    <!-- Layout 1: 1 Big Left, 4 Small List Right -->
-                    <div class="sec-head-ribbon">
-                        <div class="left-side">
-                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
-                            @if($section->children->count() > 0)
-                                <div class="sub-cats">
-                                    @foreach($section->children->take(5) as $child)
-                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
-                                    @endforeach
-                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
-                                </div>
-                            @endif
-                        </div>
-                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
-                    </div>
-                    
-                    @php
-                        $layout1Posts = $posts->take(5);
-                        $mainPost = $layout1Posts->first();
-                        $sidePosts = $layout1Posts->slice(1);
-                    @endphp
-
-                    @if($mainPost)
-                        <div class="layout-1-grid">
-                            <div class="layout-1-main">
-                                <div class="card-img">
-                                    <a href="{{ route('news.show', $mainPost->slug) }}">
-                                        @if ($mainPost->featuredImage || $mainPost->thumbnailImage)
-                                            <x-news-thumbnail :news="$mainPost" classes="w-100 h-100 object-fit-cover" />
-                                        @else
-                                            <div class="art art1 w-100 h-100"></div>
-                                        @endif
-                                        @if ($mainPost->video_url)
-                                            <div class="play-indicator"></div>
-                                        @endif
-                                    </a>
-                                </div>
-                                <div class="card-content">
-                                    <h3><a href="{{ route('news.show', $mainPost->slug) }}">{{ $mainPost->title }}</a></h3>
-                                    <p>{{ Str::limit($mainPost->short_description, 180) }}</p>
-                                    <span class="time">{{ $mainPost->created_at->diffForHumans() }}</span>
-                                </div>
-                            </div>
-                            @if($sidePosts->count() > 0)
-                                <div class="layout-1-sidebar">
-                                    @foreach($sidePosts as $post)
-                                        <div class="layout-1-list-item">
-                                            <div class="card-img">
-                                                <a href="{{ route('news.show', $post->slug) }}">
-                                                    @if ($post->thumbnailImage || $post->featuredImage)
-                                                        <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                                                    @else
-                                                        <div class="art art{{ $loop->iteration + 1 }} w-100 h-100"></div>
-                                                    @endif
-                                                    @if ($post->video_url)
-                                                        <div class="play-indicator"></div>
-                                                    @endif
-                                                </a>
-                                            </div>
-                                            <div class="card-content">
-                                                <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    @endif
-
-                @elseif ($section->layout_type === 'layout_2')
-                    <!-- Layout 2: 2 Left, 1 Big Center, 2 Right -->
-                    <div class="sec-head-ribbon">
-                        <div class="left-side">
-                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
-                            @if($section->children->count() > 0)
-                                <div class="sub-cats">
-                                    @foreach($section->children->take(5) as $child)
-                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
-                                    @endforeach
-                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
-                                </div>
-                            @endif
-                        </div>
-                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
-                    </div>
-                    
-                    @php
-                        $layout2Posts = $posts->take(5);
-                        $centerPost = $layout2Posts->first();
-                        $leftPosts = $layout2Posts->slice(1, 2);
-                        $rightPosts = $layout2Posts->slice(3, 2);
-                    @endphp
-
-                    @if($centerPost)
-                        <div class="layout-2-grid">
-                            <!-- Left Side -->
-                            <div class="layout-2-side">
-                                @foreach($leftPosts as $post)
-                                    <div class="layout-2-grid-item">
-                                        <div class="card-img">
-                                            <a href="{{ route('news.show', $post->slug) }}">
-                                                @if ($post->thumbnailImage || $post->featuredImage)
-                                                    <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                                                @else
-                                                    <div class="art art{{ $loop->iteration }} w-100 h-100"></div>
-                                                @endif
-                                                @if ($post->video_url)
-                                                    <div class="play-indicator"></div>
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
-                                    </div>
+                <div class="sec-head-ribbon">
+                    <div class="left-side">
+                        <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
+                        @if($section->children->count() > 0)
+                            <div class="sub-cats">
+                                @foreach($section->children->take(5) as $child)
+                                    <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type }}" onclick="loadCategoryNews(this)">{{ $child->name }}</button>
                                 @endforeach
-                            </div>
-                            
-                            <!-- Center Big -->
-                            <div class="layout-2-center">
-                                <div class="card-img">
-                                    <a href="{{ route('news.show', $centerPost->slug) }}">
-                                        @if ($centerPost->featuredImage || $centerPost->thumbnailImage)
-                                            <x-news-thumbnail :news="$centerPost" classes="w-100 h-100 object-fit-cover" />
-                                        @else
-                                            <div class="art art3 w-100 h-100"></div>
-                                        @endif
-                                    </a>
-                                </div>
-                                <div class="card-content">
-                                    <h3><a href="{{ route('news.show', $centerPost->slug) }}">{{ $centerPost->title }}</a></h3>
-                                </div>
-                            </div>
-                            
-                            <!-- Right Side -->
-                            <div class="layout-2-side">
-                                @foreach($rightPosts as $post)
-                                    <div class="layout-2-grid-item">
-                                        <div class="card-img">
-                                            <a href="{{ route('news.show', $post->slug) }}">
-                                                @if ($post->thumbnailImage || $post->featuredImage)
-                                                    <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                                                @else
-                                                    <div class="art art{{ $loop->iteration + 3 }} w-100 h-100"></div>
-                                                @endif
-                                                @if ($post->video_url)
-                                                    <div class="play-indicator"></div>
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
-                @else
-
-                    <!-- Standard Category Layout (2-row structure) -->
-                    <div class="sec-head-ribbon">
-                        <div class="left-side">
-                            <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
-                            @if($section->children->count() > 0)
-                                <div class="sub-cats">
-                                    @foreach($section->children->take(5) as $child)
-                                        <a href="{{ route('category', $child->slug) }}">{{ $child->name }}</a>
-                                    @endforeach
-                                    <a href="{{ route('category', $section->slug) }}" class="all-btn">সকল</a>
-                                </div>
-                            @endif
-                        </div>
-                        <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
-                    </div>
-
-                    <div class="category-section-layout">
-
-                        <!-- Row 1: 2 Columns (Title & description left, Image right) -->
-                        @php
-                            $featuredPosts = $posts->where('featured_news', 1);
-                            $row1Posts = $featuredPosts->take(2);
-                            $row2Posts = $featuredPosts->slice(2, 3);
-                        @endphp
-                        @if ($row1Posts->count() > 0)
-                            <div class="cat-row-1">
-                                @foreach ($row1Posts as $post)
-                                    <div class="cat-card-style-1">
-                                        <div class="card-content">
-                                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
-                                            </h4>
-                                            <p>{{ Str::limit($post->short_description, 120) }}</p>
-                                            <span class="time">{{ $post->created_at->diffForHumans() }}</span>
-                                        </div>
-                                        <div class="card-img">
-                                            <a href="{{ route('news.show', $post->slug) }}">
-                                                @if ($post->thumbnailImage || $post->featuredImage)
-                                                    <x-news-thumbnail :news="$post"
-                                                        classes="w-100 h-100 object-fit-cover" />
-                                                @else
-                                                    <div class="art art{{ $loop->iteration }} w-100 h-100"></div>
-                                                @endif
-                                                @if ($post->video_url)
-                                                    <div class="play-indicator"></div>
-                                                @endif
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type }}" onclick="loadCategoryNews(this)">সকল</button>
                             </div>
                         @endif
-
-                        <!-- Row 2: 3 Columns (Image top, Title below) -->
-                        @if ($row2Posts->count() > 0)
-                            <div class="cat-row-2">
-                                @foreach ($row2Posts as $post)
-                                    <div class="cat-card-style-2">
-                                        <div class="card-img">
-                                            <a href="{{ route('news.show', $post->slug) }}">
-                                                @if ($post->thumbnailImage || $post->featuredImage)
-                                                    <x-news-thumbnail :news="$post"
-                                                        classes="w-100 h-100 object-fit-cover" />
-                                                @else
-                                                    <div class="art art{{ $loop->iteration + 2 }} w-100 h-100"></div>
-                                                @endif
-                                                @if ($post->video_url)
-                                                    <div class="play-indicator"></div>
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="card-content">
-                                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
-                                            </h4>
-                                            <span class="time">{{ $post->created_at->diffForHumans() }}</span>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <!-- Row 3: 3 Columns (Text-only news) -->
-                        @php
-                            $row3Posts = $featuredPosts->slice(5, 3);
-                        @endphp
-                        @if ($row3Posts->count() > 0)
-                            <div class="cat-row-3">
-                                @foreach ($row3Posts as $post)
-                                    <div class="cat-card-style-2">
-                                        <div class="card-img">
-                                            <a href="{{ route('news.show', $post->slug) }}">
-                                                @if ($post->thumbnailImage || $post->featuredImage)
-                                                    <x-news-thumbnail :news="$post" classes="w-100 h-100 object-fit-cover" />
-                                                @else
-                                                    <div class="art art{{ $loop->iteration + 5 }} w-100 h-100"></div>
-                                                @endif
-                                                @if ($post->video_url)
-                                                    <div class="play-indicator"></div>
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="card-content">
-                                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
-                                            <span class="time">{{ $post->created_at->diffForHumans() }}</span>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
                     </div>
-                @endif
+                    <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
+                </div>
+
+                <div id="category-content-{{ $section->id }}" class="category-content-wrapper position-relative" style="min-height: 200px;">
+                    @include('frontend.partials.layouts.' . $section->layout_type, ['posts' => $posts, 'categoryId' => $section->id])
+                </div>
             @endforeach
 
         </main>
@@ -955,3 +578,37 @@
     @endif
 
 @endsection
+
+@push('scripts')
+<script>
+    function loadCategoryNews(btn) {
+        const categoryId = btn.getAttribute('data-category-id');
+        const sectionId = btn.getAttribute('data-section-id');
+        const layoutType = btn.getAttribute('data-layout');
+        
+        // Update active class on buttons
+        const parentDiv = btn.closest('.sub-cats');
+        if(parentDiv) {
+            parentDiv.querySelectorAll('.ajax-tab-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        const container = document.getElementById('category-content-' + sectionId);
+        if(!container) return;
+
+        // Show loading state
+        container.innerHTML = '<div class="d-flex justify-content-center align-items-center" style="min-height: 200px;"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+        // Fetch data
+        fetch(`/api/category/${categoryId}/layout/${layoutType}`)
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+            })
+            .catch(err => {
+                console.error(err);
+                container.innerHTML = '<div class="text-center text-danger py-4">দুঃখিত, খবর লোড করতে সমস্যা হয়েছে।</div>';
+            });
+    }
+</script>
+@endpush

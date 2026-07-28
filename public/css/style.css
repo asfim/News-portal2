@@ -90,7 +90,7 @@ img{ display:block; width:100%; height:100%; object-fit:cover; }
 
 /* ---------- blue category nav ---------- */
 nav.cat-nav{ background:var(--blue); }
-nav.cat-nav .wrap{ display:flex; overflow-x:auto; }
+nav.cat-nav .wrap{ display:flex; justify-content:center; overflow-x:auto; }
 nav.cat-nav a{
   color:#fff; font-size:14px; font-weight:600; padding:11px 15px; white-space:nowrap;
   border-right:1px solid rgba(255,255,255,.12);
@@ -199,7 +199,7 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
   gap: 5px;
   margin-left: 30px;
 }
-.sec-head-ribbon .sub-cats a:not(.all-btn) {
+.sec-head-ribbon .sub-cats .ajax-tab-btn {
   font-size: 14.5px;
   color: #444;
   text-decoration: none;
@@ -212,8 +212,10 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
-.sec-head-ribbon .sub-cats a:not(.all-btn):hover {
+.sec-head-ribbon .sub-cats .ajax-tab-btn:hover,
+.sec-head-ribbon .sub-cats .ajax-tab-btn.active {
   background-color: #1B4D91;
   color: white;
   border-color: #1B4D91;
@@ -231,6 +233,7 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .sec-head-ribbon .sub-cats .all-btn:hover { background-color: #123666; border-color: #123666; color: white; }
 .sec-head-ribbon .more {
@@ -626,8 +629,8 @@ figure.thumb{ position:relative; border-radius:2px; overflow:hidden; aspect-rati
 /* ---------- footer ---------- */
 footer{ background:var(--blue-dark); color:#cfe0f5; margin-top:0; padding:38px 0 20px; }
 .foot-grid{ display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:26px; }
-footer h5{ color:#fff; font-family:var(--serif); font-size:14.5px; margin-bottom:12px; }
-footer ul{ list-style:none; display:flex; flex-direction:column; gap:7px; font-size:13px; }
+footer h5{ color:#fff; font-family:var(--serif); font-size:14.5px; margin-bottom:12px; text-align: left; }
+footer ul{ list-style:none; display:flex; flex-direction:column; gap:7px; font-size:13px; text-align: left; align-items: flex-start; padding: 0; }
 footer ul a:hover{ color:#fff; }
 footer .brand2 h1{ font-family:var(--serif); color:#fff; font-size:24px; font-weight:800; }
 footer .brand2 p{ font-size:12.5px; opacity:.8; margin-top:8px; max-width:280px; line-height:1.6; }
