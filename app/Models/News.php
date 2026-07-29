@@ -32,6 +32,7 @@ class News extends Model
         'trending_news',
         'editor_choice',
         'is_latest',
+        'is_gallery',
         'gallery_images',
         'status',
         'publish_at',
@@ -48,6 +49,7 @@ class News extends Model
         'trending_news' => 'boolean',
         'editor_choice' => 'boolean',
         'is_latest' => 'boolean',
+        'is_gallery' => 'boolean',
         'gallery_images' => 'array',
         'publish_at' => 'datetime',
         'views' => 'integer',
@@ -175,5 +177,13 @@ class News extends Model
     public function scopeEditorChoice(Builder $query): Builder
     {
         return $query->where('editor_choice', true);
+    }
+
+    /**
+     * Scope query to gallery news.
+     */
+    public function scopeGallery(Builder $query): Builder
+    {
+        return $query->where('is_gallery', true);
     }
 }

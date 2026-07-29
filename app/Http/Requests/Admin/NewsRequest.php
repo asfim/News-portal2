@@ -20,7 +20,8 @@ class NewsRequest extends FormRequest
      */
     public function rules(): array
     {
-        $newsId = $this->route('news')?->id;
+        $news = $this->route('news');
+        $newsId = is_object($news) ? $news->id : $news;
 
         return [
             'category_id' => ['required', 'integer', 'exists:categories,id'],

@@ -24,6 +24,12 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="alert alert-danger border-0 shadow-sm mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -338,6 +344,14 @@
                                   <small class="text-danger d-block mt-1" style="font-size: 11px;">সর্বোচ্চ ৯টি নিউজ Latest হিসেবে সচল রয়েছে। নতুন সচল করতে আগে অন্য কোনো খবর এডিট করে এটি বন্ধ করুন।</small>
                                 @endif
                             </div>
+
+                            <div class="form-check form-switch ps-0 mb-3">
+                                <label class="form-check-label fw-bold small" for="is_gallery">Gallery / ছবিতে বাংলাদেশ</label>
+                                <input class="form-check-input ms-0 float-end"
+                                    style="width: 2.2em; height: 1.1em;" type="checkbox" id="is_gallery" name="is_gallery"
+                                    value="1"
+                                    {{ old('is_gallery') ? 'checked' : '' }}>
+                            </div>
                         </div>
                     </div>
 
@@ -387,6 +401,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Handle HTML5 validation on hidden tabs
+            const form = document.querySelector('form');
+            form.addEventListener('invalid', function(e) {
+                const invalidField = e.target;
+                const tabPane = invalidField.closest('.tab-pane');
+                if (tabPane && !tabPane.classList.contains('active') && !tabPane.classList.contains('show')) {
+                    const tabId = tabPane.id;
+                    const tabTrigger = document.querySelector(`button[data-bs-target="#${tabId}"]`);
+                    if (tabTrigger) {
+                        tabTrigger.click();
+                        setTimeout(() => invalidField.focus(), 200);
+                    }
+                }
+            }, true);
+
             let ckEditorInstance;
             // 1. CKEditor Initialization
             ClassicEditor

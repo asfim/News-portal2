@@ -20,7 +20,8 @@ class TagRequest extends FormRequest
      */
     public function rules(): array
     {
-        $tagId = $this->route('tag')?->id;
+        $tag = $this->route('tag');
+        $tagId = is_object($tag) ? $tag->id : $tag;
 
         return [
             'name' => ['required', 'string', 'max:255'],

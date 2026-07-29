@@ -45,8 +45,17 @@ class HomeController extends Controller
 
         // Get Active Advertisements
         $advertisements = \App\Models\Advertisement::active()->get()->groupBy('placement_key');
+        
+        // Get Gallery News (Feature Flag)
+        $galleryNews = News::published()->gallery()->with(['featuredImage', 'thumbnailImage', 'category'])->latest()->take(6)->get();
 
-        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews', 'breaking', 'advertisements'));
+        return view('frontend.home', compact('featured', 'recent', 'trending', 'mostRead', 'categorySections', 'videoNews', 'latestFeaturedNews', 'breaking', 'advertisements', 'galleryNews'));
+    }
+
+    public function gallery()
+    {
+        $news = News::published()->gallery()->latest()->paginate(16);
+        return view('frontend.gallery', compact('news'));
     }
 
     public function showNews($slug)

@@ -75,6 +75,7 @@ class NewsController extends Controller
         $data['trending_news'] = $request->has('trending_news');
         $data['editor_choice'] = $request->has('editor_choice');
         $data['is_latest'] = $request->has('is_latest');
+        $data['is_gallery'] = $request->has('is_gallery');
 
         if ($data['is_latest']) {
             $latestCount = News::where('is_latest', true)->count();
@@ -177,6 +178,7 @@ class NewsController extends Controller
         $data['trending_news'] = $request->has('trending_news');
         $data['editor_choice'] = $request->has('editor_choice');
         $data['is_latest'] = $request->has('is_latest');
+        $data['is_gallery'] = $request->has('is_gallery');
 
         if ($data['is_latest']) {
             $latestCount = News::where('is_latest', true)->where('id', '!=', $news->id)->count();

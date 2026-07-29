@@ -523,27 +523,18 @@
         </main>
 
         <!-- Dark multimedia section (Dynamic from latest image articles) -->
-        @php
-            $galleryNews = \App\Models\News::published()
-                ->whereNotNull('featured_image')
-                ->orWhereHas('featuredImage')
-                ->latest()
-                ->take(3)
-                ->get();
-            if ($galleryNews->count() < 3) {
-                $galleryNews = $recent->take(3);
-            }
-            $bigGallery = $galleryNews->first();
-            $subGallery = $galleryNews->slice(1, 2);
-        @endphp
-
-        @if ($galleryNews->count() > 0)
+        @if (isset($galleryNews) && $galleryNews->count() > 0)
             <section class="dark-sec">
                 <div class="wrap">
                     <div class="sec-head">
-                        <h3>ছবিতে বাংলাদেশ</h3><a class="more" href="{{ route('news.latest') }}">গ্যালারি ›</a>
+                        <h3>ছবিতে বাংলাদেশ</h3><a class="more" href="{{ route('gallery') }}">গ্যালারি ›</a>
                     </div>
                     <div class="dark-grid">
+                        @php
+                            $bigGallery = $galleryNews->first();
+                            $subGallery = $galleryNews->slice(1, 5);
+                        @endphp
+                        
                         @if ($bigGallery)
                             <div class="big">
                                 <a href="{{ route('news.show', $bigGallery->slug) }}">
@@ -568,7 +559,7 @@
                                         @if ($item->thumbnailImage || $item->featuredImage)
                                             <x-news-thumbnail :news="$item" classes="w-100 h-100 object-fit-cover" />
                                         @else
-                                            <div class="art art{{ $index == 0 ? 6 : 10 }}"></div>
+                                            <div class="art art{{ ($index % 5) + 6 }}"></div>
                                         @endif
                                     </figure>
                                     <h4>{{ $item->title }}</h4>

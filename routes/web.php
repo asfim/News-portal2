@@ -28,6 +28,7 @@ use App\Http\Controllers\Frontend\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/latest-news', [HomeController::class, 'latestNews'])->name('news.latest');
 Route::get('/quick-news', [HomeController::class, 'quickNews'])->name('news.quick');
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
 Route::get('/news/{slug}', [HomeController::class, 'showNews'])->name('news.show');
 Route::get('/category/{slug}', [HomeController::class, 'category'])->name('category');
 Route::get('/api/category/{id}/layout/{layout_type}', [HomeController::class, 'getCategoryNewsHtml'])->name('api.category.layout');

@@ -20,7 +20,8 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $categoryId = $this->route('category')?->id;
+        $category = $this->route('category');
+        $categoryId = is_object($category) ? $category->id : $category;
 
         return [
             'parent_id' => [

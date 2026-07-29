@@ -20,7 +20,8 @@ class AuthorRequest extends FormRequest
      */
     public function rules(): array
     {
-        $authorId = $this->route('author')?->id;
+        $author = $this->route('author');
+        $authorId = is_object($author) ? $author->id : $author;
 
         return [
             'user_id' => [
