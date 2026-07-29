@@ -14,9 +14,9 @@
             @foreach ($row1Posts as $post)
                 <div class="cat-card-style-1">
                     <div class="card-content">
-                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
+                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a>
                         </h4>
-                        <p>{{ Str::limit($post->short_description, 120) }}</p>
+                        <p>{{ Str::limit($post->translated_short_description, 120) }}</p>
                         <span class="time">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
                     <div class="card-img">
@@ -56,7 +56,7 @@
                         </a>
                     </div>
                     <div class="card-content">
-                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a>
+                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a>
                         </h4>
                         <span class="time">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
@@ -86,7 +86,7 @@
                         </a>
                     </div>
                     <div class="card-content">
-                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                        <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h4>
                         <span class="time">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
                 </div>

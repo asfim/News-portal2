@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $page->title . ' | NewsHub Pro')
+@section('title', $page->translated_title . ' | NewsHub Pro')
 
 @section('content')
 <main class="container-fluid px-lg-5 py-5">
@@ -10,17 +10,17 @@
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb m-0 small fw-medium">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> হোম</a></li>
-                    <li class="breadcrumb-item active text-danger" aria-current="page">{{ $page->title }}</li>
+                    <li class="breadcrumb-item active text-danger" aria-current="page">{{ $page->translated_title }}</li>
                 </ol>
             </nav>
 
             <div class="glass-card p-4 p-md-5 rounded-4 shadow-sm border" style="background: var(--nh-surface);">
                 <h1 class="fw-black mb-4 pb-3 border-bottom text-uppercase" style="color: var(--nh-text);">
-                    {{ $page->title }}
+                    {{ $page->translated_title }}
                 </h1>
 
                 <div class="page-content mb-5" style="color: var(--nh-text); line-height: 1.8; font-size: 1.1rem;">
-                    {!! $page->content !!}
+                    {!! $page->translated_content !!}
                 </div>
 
                 @if($page->slug === 'contact')

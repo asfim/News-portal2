@@ -25,6 +25,13 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Frontend\HomeController;
 
 // Frontend Routes
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/latest-news', [HomeController::class, 'latestNews'])->name('news.latest');
 Route::get('/quick-news', [HomeController::class, 'quickNews'])->name('news.quick');

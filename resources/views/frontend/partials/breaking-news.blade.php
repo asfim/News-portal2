@@ -15,7 +15,7 @@
                     @foreach($breakingNews as $news)
                         <span class="me-5">
                             <i class="fa-solid fa-angle-right text-danger me-1"></i> 
-                            <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none hover-danger">{{ $news->title }}</a>
+                            <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none hover-danger">{{ $news->translated_title }}</a>
                         </span>
                     @endforeach
                 </div>

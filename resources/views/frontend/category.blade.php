@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', $category->name . ' | NewsHub Pro')
+@section('title', $category->translated_name . ' | NewsHub Pro')
 
 @section('content')
 <main class="container-fluid px-lg-5 py-4">
     <!-- Page Header -->
     <section class="mb-4">
         <div class="d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary-subtle">
-            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">{{ $category->name }}</h1>
+            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">{{ $category->translated_name }}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb m-0 small">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">হোম</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $category->translated_name }}</li>
                 </ol>
             </nav>
         </div>
@@ -30,9 +30,9 @@
                         <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
                             <div>
                                 <h4 class="h5 fw-bold mb-2 line-clamp-2">
-                                    <a href="{{ route('news.show', $item->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $item->title }}</a>
+                                    <a href="{{ route('news.show', $item->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $item->translated_title }}</a>
                                 </h4>
-                                <p class="text-muted small line-clamp-3 mb-3">{{ $item->short_description }}</p>
+                                <p class="text-muted small line-clamp-3 mb-3">{{ $item->translated_short_description }}</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-between text-muted small border-top pt-2 mt-auto">
                                 <span><i class="fa-regular fa-clock me-1"></i> {{ $item->created_at->diffForHumans() }}</span>

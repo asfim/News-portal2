@@ -314,9 +314,9 @@
                                         </div>
                                         <div class="lead-content">
                                             <h2><a
-                                                    href="{{ route('news.show', $row1Post->slug) }}">{{ $row1Post->title }}</a>
+                                                    href="{{ route('news.show', $row1Post->slug) }}">{{ $row1Post->translated_title }}</a>
                                             </h2>
-                                            <p>{{ Str::limit($row1Post->short_description, 180) }}</p>
+                                            <p>{{ Str::limit($row1Post->translated_short_description, 180) }}</p>
                                             <span class="time">{{ $row1Post->created_at->diffForHumans() }}</span>
                                         </div>
                                     </div>
@@ -330,9 +330,9 @@
                                     @foreach ($row2Posts as $item)
                                         <div class="latest-card-style-2">
                                             <div class="card-content">
-                                                <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                                                <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->translated_title }}</a>
                                                 </h4>
-                                                <p>{{ Str::limit($item->short_description, 120) }}</p>
+                                                <p>{{ Str::limit($item->translated_short_description, 120) }}</p>
                                                 <span class="time">{{ $item->created_at->diffForHumans() }}</span>
                                             </div>
                                             <div class="card-img">
@@ -374,7 +374,7 @@
                                             </div>
                                             <div class="card-content">
                                                 <h4><a
-                                                        href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                                                        href="{{ route('news.show', $item->slug) }}">{{ $item->translated_title }}</a>
                                                 </h4>
                                                 <span class="time">{{ $item->created_at->diffForHumans() }}</span>
                                             </div>
@@ -403,9 +403,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-content">
-                                                <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a>
+                                                <h4><a href="{{ route('news.show', $item->slug) }}">{{ $item->translated_title }}</a>
                                                 </h4>
-                                                <p>{{ Str::limit($item->short_description, 140) }}</p>
+                                                <p>{{ Str::limit($item->translated_short_description, 140) }}</p>
                                                 <span class="time">{{ $item->created_at->diffForHumans() }}</span>
                                             </div>
                                         </div>
@@ -415,7 +415,7 @@
 
                         </div>
                     @else
-                        <div class="text-center py-5 text-secondary">কোনো সর্বশেষ খবর পাওয়া যায়নি।</div>
+                        <div class="text-center py-5 text-secondary">@lang('messages.no_latest_news')</div>
                     @endif
                 </div>
 
@@ -424,7 +424,7 @@
                     <!-- Sidebar Top Advertisement -->
                     <x-advertisement placement="sidebar_top" :ads="$advertisements" class="mb-4" />
 
-                    <h3 class="head">ব্রেকিং নিউজ</h3>
+                    <h3 class="head">@lang('messages.breaking_news')</h3>
                     @php
                         $sidebarNews = $breaking->isNotEmpty() ? $breaking : $recent;
                     @endphp
@@ -432,7 +432,7 @@
                         <div class="side-item" {!! $loop->last ? 'style="border-bottom:none;"' : '' !!}>
                             <span class="dot">{{ toBengaliNumber($loop->iteration) }}</span>
                             <div>
-                                <h5><a href="{{ route('news.show', $item->slug) }}">{{ $item->title }}</a></h5>
+                                <h5><a href="{{ route('news.show', $item->slug) }}">{{ $item->translated_title }}</a></h5>
                                 <div class="t">{{ $item->created_at->diffForHumans() }}</div>
                             </div>
                         </div>
@@ -464,7 +464,7 @@
             <!-- Video row -->
             @if ($videoNews->count() > 0)
                 <div class="sec-head">
-                    <h3>ভিডিও</h3><a class="more" href="{{ route('news.latest') }}">সব দেখুন ›</a>
+                    <h3>@lang('messages.video_gallery')</h3><a class="more" href="{{ route('news.latest') }}">@lang('messages.see_all') ›</a>
                 </div>
                 <div class="video-row">
                     @foreach ($videoNews->take(4) as $video)
@@ -478,7 +478,7 @@
                                     @endif
                                     <div class="play"></div>
                                 </figure>
-                                <h5>{{ $video->title }}</h5>
+                                <h5>{{ $video->translated_title }}</h5>
                             </a>
                         </div>
                     @endforeach
@@ -502,17 +502,17 @@
 
                 <div class="sec-head-ribbon">
                     <div class="left-side">
-                        <h3><a href="{{ route('category', $section->slug) }}">{{ $section->name }}</a></h3>
+                        <h3><a href="{{ route('category', $section->slug) }}">{{ $section->translated_name }}</a></h3>
                         @if($section->children->count() > 0)
                             <div class="sub-cats">
                                 @foreach($section->children->take(5) as $child)
-                                    <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type ?: 'layout-1' }}" onclick="loadCategoryNews(this)">{{ $child->name }}</button>
+                                    <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type ?: 'layout-1' }}" onclick="loadCategoryNews(this)">{{ $child->translated_name }}</button>
                                 @endforeach
-                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $layoutType }}" onclick="loadCategoryNews(this)">সব</button>
+                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $layoutType }}" onclick="loadCategoryNews(this)">@lang('messages.all')</button>
                             </div>
                         @endif
                     </div>
-                    <a class="more" href="{{ route('category', $section->slug) }}">আরও খবর ➔</a>
+                    <a class="more" href="{{ route('category', $section->slug) }}">@lang('messages.more_news') ➔</a>
                 </div>
 
                 <div id="category-content-{{ $section->id }}" class="category-content-wrapper position-relative" style="min-height: 200px;">
@@ -527,7 +527,7 @@
             <section class="dark-sec">
                 <div class="wrap">
                     <div class="sec-head">
-                        <h3>ছবিতে বাংলাদেশ</h3><a class="more" href="{{ route('gallery') }}">গ্যালারি ›</a>
+                        <h3>@lang('messages.photo_gallery')</h3><a class="more" href="{{ route('gallery') }}">@lang('messages.gallery')</a>
                     </div>
                     <div class="dark-grid">
                         @php
@@ -545,9 +545,9 @@
                                             <div class="art art2"></div>
                                         @endif
                                     </figure>
-                                    <h4>{{ $bigGallery->title }}</h4>
+                                    <h4>{{ $bigGallery->translated_title }}</h4>
                                 </a>
-                                <p class="t">{{ $bigGallery->category ? $bigGallery->category->name : 'বাংলাদেশ' }}
+                                <p class="t">{{ $bigGallery->category ? $bigGallery->category->translated_name : 'বাংলাদেশ' }}
                                 </p>
                             </div>
                         @endif
@@ -562,9 +562,9 @@
                                             <div class="art art{{ ($index % 5) + 6 }}"></div>
                                         @endif
                                     </figure>
-                                    <h4>{{ $item->title }}</h4>
+                                    <h4>{{ $item->translated_title }}</h4>
                                 </a>
-                                <p class="t">{{ $item->category ? $item->category->name : 'বাংলাদেশ' }}</p>
+                                <p class="t">{{ $item->category ? $item->category->translated_name : 'বাংলাদেশ' }}</p>
                             </div>
                         @endforeach
                     </div>

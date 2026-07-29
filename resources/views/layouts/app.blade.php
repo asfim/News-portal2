@@ -82,11 +82,11 @@
         <script>setTimeout(() => document.getElementById('error-toast')?.remove(), 6000);</script>
     @endif
 
-    <!-- Header Section -->
-    @include('frontend.partials.header')
-
-    <!-- Navigation Section -->
-    @include('frontend.partials.navbar')
+    <!-- Header and Navigation Section -->
+    <header class="sticky-top bg-white" style="z-index: 1040; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        @include('frontend.partials.header')
+        @include('frontend.partials.navbar')
+    </header>
 
     <!-- Main Content Section -->
     @yield('content')

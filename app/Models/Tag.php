@@ -10,7 +10,15 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'status'];
+    protected $fillable = [
+        'name',
+        'name_en',
+        'slug', 'description', 'status'];
+
+    public function getTranslatedNameAttribute()
+    {
+        return app()->getLocale() === 'en' && !empty($this->name_en) ? $this->name_en : $this->name;
+    }
 
     protected $casts = [
         'status' => 'boolean',

@@ -31,13 +31,13 @@
                                 <x-news-thumbnail :news="$newsItem" classes="object-fit-cover" />
                                 <div class="position-absolute m-2" style="top:0; left:0; z-index:10; width:auto; height:auto;">
                                     <span class="badge bg-danger px-2 py-1 fs-7 fw-bold">
-                                        <a href="{{ route('category', $cat->slug) }}" class="text-white text-decoration-none">{{ $cat->name }}</a>
+                                        <a href="{{ route('category', $cat->slug) }}" class="text-white text-decoration-none">{{ $cat->translated_name }}</a>
                                     </span>
                                 </div>
                             </div>
                             <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
                                 <h4 class="h6 fw-bold mb-2 line-clamp-2">
-                                    <a href="{{ route('news.show', $newsItem->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $newsItem->title }}</a>
+                                    <a href="{{ route('news.show', $newsItem->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $newsItem->translated_title }}</a>
                                 </h4>
                                 <span class="text-muted small"><i class="fa-regular fa-clock me-1"></i> {{ $newsItem->created_at->diffForHumans() }}</span>
                             </div>

@@ -64,11 +64,15 @@
                             aria-labelledby="content-tab">
                             <div class="card border-0 shadow-sm rounded-3 p-4 mb-4">
                                 <div class="mb-4">
-                                    <label for="title" class="form-label fw-semibold text-secondary">Article
-                                        Title</label>
+                                    <label for="title" class="form-label fw-semibold text-secondary">News Title (Bengali) <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control py-3" id="title" name="title"
-                                        value="{{ old('title') }}" placeholder="Compose a catchy title..." required
+                                        value="{{ old('title') }}" placeholder="Enter news title in Bengali" required
                                         autofocus>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="title_en" class="form-label fw-semibold text-secondary">News Title (English)</label>
+                                    <input type="text" class="form-control py-3" id="title_en" name="title_en"
+                                        value="{{ old('title_en') }}" placeholder="Enter news title in English">
                                 </div>
 
                                 <div class="mb-4">
@@ -79,27 +83,33 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="short_description" class="form-label fw-semibold text-secondary">Short
-                                        Description / Sub-headline</label>
+                                    <label for="short_description" class="form-label fw-semibold text-secondary">Short Description (Bengali) <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="short_description" name="short_description" rows="3"
-                                        placeholder="Write a short summary that appears in lists..." required>{{ old('short_description') }}</textarea>
+                                        placeholder="Write a short summary in Bengali..." required>{{ old('short_description') }}</textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="short_description_en" class="form-label fw-semibold text-secondary">Short Description (English)</label>
+                                    <textarea class="form-control" id="short_description_en" name="short_description_en" rows="3"
+                                        placeholder="Write a short summary in English...">{{ old('short_description_en') }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="editorContent"
-                                        class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
-                                        Long Content
-                                        <button type="button"
-                                            class="btn btn-sm btn-outline-primary rounded-pill select-media-btn"
-                                            data-target="ckeditor">
+                                    <label for="editorContent" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
+                                        Long Content (Bengali) <span class="text-danger">*</span>
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill select-media-btn" data-target="ckeditor">
                                             <i class="fa-solid fa-photo-film me-1"></i> Insert Media
                                         </button>
                                     </label>
-                                    <!-- Quill / CKEditor textarea -->
                                     <textarea class="form-control d-none" id="editorContent" name="content">{{ old('content') }}</textarea>
-                                    <div id="wysiwygEditor"
-                                        style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">
-                                    </div>
+                                    <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;"></div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="editorContentEn" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
+                                        Long Content (English)
+                                    </label>
+                                    <!-- Use a simple textarea for EN content for now since initializing a 2nd quill requires JS updates -->
+                                    <textarea class="form-control" id="editorContentEn" name="content_en" rows="15" placeholder="Enter long content in English...">{{ old('content_en') }}</textarea>
                                 </div>
                             </div>
                         </div>

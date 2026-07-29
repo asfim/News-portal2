@@ -32,9 +32,20 @@
                 <div class="row g-4">
                     <!-- General Details Column -->
                     <div class="col-lg-8">
-                        <div class="mb-4">
-                            <label for="name" class="form-label fw-semibold text-secondary">Category Name</label>
-                            <input type="text" class="form-control py-3" id="name" name="name" value="{{ old('name') }}" placeholder="Enter category name" required autofocus>
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold text-secondary">Category Name (Bengali) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control py-3 @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Enter category name in Bengali" required autofocus>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name_en" class="form-label fw-semibold text-secondary">Category Name (English)</label>
+                            <input type="text" class="form-control py-3 @error('name_en') is-invalid @enderror" id="name_en" name="name_en" value="{{ old('name_en') }}" placeholder="Enter category name in English">
+                            @error('name_en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-4">

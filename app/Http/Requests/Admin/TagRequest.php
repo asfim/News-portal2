@@ -25,13 +25,14 @@ class TagRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'required',
                 'string',
                 'max:255',
                 Rule::unique('tags', 'slug')->ignore($tagId)
             ],
-            'description' => ['nullable', 'string'],
+            'description' => ['nullable', 'string', 'max:500'],
             'status' => ['nullable', 'boolean'],
         ];
     }

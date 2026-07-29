@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'search' => 'Search',
+    'search_placeholder' => 'Search...',
+    'latest' => 'Latest',
+    'read_more' => 'Read More',
+    'related_news' => 'Related News',
+    'breaking_news' => 'Breaking News',
+    'trending_news' => 'Trending',
+    'featured_news' => 'Featured',
+    'most_read' => 'Most Read',
+    'gallery' => 'Gallery ›',
+    'video_gallery' => 'Video Gallery',
+    'home' => 'Home',
+    'all_rights_reserved' => 'All rights reserved.',
+    'no_latest_news' => 'No latest news found.',
+    'all' => 'All',
+    'photo_gallery' => 'Photo Gallery',
+    'more_news' => 'More News',
+    'see_all' => 'See All',
+    'sections' => 'Sections',
+    'lifestyle' => 'Lifestyle',
+    'organization' => 'Organization',
+    'social_media' => 'Social Media',
+    'design_prototype' => 'Design Prototype — All news are fictional and for demonstration',
+];

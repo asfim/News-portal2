@@ -19,9 +19,12 @@ class News extends Model
         'subcategory_id',
         'author_id',
         'title',
+        'title_en',
         'slug',
         'short_description',
+        'short_description_en',
         'content',
+        'content_en',
         'featured_image',
         'thumbnail',
         'video_url',
@@ -42,6 +45,21 @@ class News extends Model
         'meta_keywords',
         'canonical_url',
     ];
+
+    public function getTranslatedTitleAttribute()
+    {
+        return app()->getLocale() === 'en' && !empty($this->title_en) ? $this->title_en : $this->title;
+    }
+
+    public function getTranslatedShortDescriptionAttribute()
+    {
+        return app()->getLocale() === 'en' && !empty($this->short_description_en) ? $this->short_description_en : $this->short_description;
+    }
+
+    public function getTranslatedContentAttribute()
+    {
+        return app()->getLocale() === 'en' && !empty($this->content_en) ? $this->content_en : $this->content;
+    }
 
     protected $casts = [
         'breaking_news' => 'boolean',

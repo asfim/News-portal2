@@ -66,7 +66,7 @@
                             <div class="play-indicator"></div>
                         @endif
                         <div class="sports-hero-overlay">
-                            <h4>{{ $heroPost->title }}</h4>
+                            <h4>{{ $heroPost->translated_title }}</h4>
                             <span class="time">{{ $heroPost->created_at->diffForHumans() }}</span>
                         </div>
                     </figure>
@@ -91,7 +91,7 @@
                             </a>
                         </div>
                         <div class="card-content">
-                            <h5><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h5>
+                            <h5><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h5>
                             <span class="time">{{ $post->created_at->diffForHumans() }}</span>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                 @foreach ($sidebarPosts as $post)
                     <div class="sports-side-card">
                         <div class="card-content">
-                            <h6><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h6>
+                            <h6><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h6>
                             <span class="time">{{ $post->created_at->diffForHumans() }}</span>
                         </div>
                         <div class="card-img">

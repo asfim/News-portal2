@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'search' => 'খুঁজুন',
+    'search_placeholder' => 'খুঁজুন...',
+    'latest' => 'সর্বশেষ',
+    'read_more' => 'বিস্তারিত পড়ুন',
+    'related_news' => 'সম্পর্কিত খবর',
+    'breaking_news' => 'ব্রেকিং নিউজ',
+    'trending_news' => 'ট্রেন্ডিং',
+    'featured_news' => 'ফিচার্ড',
+    'most_read' => 'সর্বাধিক পঠিত',
+    'gallery' => 'গ্যালারি ›',
+    'video_gallery' => 'ভিডিও গ্যালারি',
+    'home' => 'হোম',
+    'all_rights_reserved' => 'সর্বস্বত্ব সংরক্ষিত।',
+    'no_latest_news' => 'কোনো সর্বশেষ খবর পাওয়া যায়নি।',
+    'all' => 'সব',
+    'photo_gallery' => 'ছবিতে বাংলাদেশ',
+    'more_news' => 'আরও খবর',
+    'see_all' => 'সব দেখুন',
+    'sections' => 'বিভাগ',
+    'lifestyle' => 'জীবনধারা',
+    'organization' => 'প্রতিষ্ঠান',
+    'social_media' => 'সামাজিক মাধ্যম',
+    'design_prototype' => 'ডিজাইন প্রোটোটাইপ — সব খবর কাল্পনিক ও উদাহরণস্বরূপ',
+];

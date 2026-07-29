@@ -42,11 +42,11 @@
                         </div>
                         <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
                             <div>
-                                <span class="badge bg-danger text-uppercase px-2 py-1 rounded mb-2" style="font-size: 0.65rem;">{{ $item->category->name }}</span>
+                                <span class="badge bg-danger text-uppercase px-2 py-1 rounded mb-2" style="font-size: 0.65rem;">{{ $item->category->translated_name }}</span>
                                 <h4 class="h5 fw-bold mb-2 line-clamp-2">
-                                    <a href="{{ route('news.show', $item->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $item->title }}</a>
+                                    <a href="{{ route('news.show', $item->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $item->translated_title }}</a>
                                 </h4>
-                                <p class="text-muted small line-clamp-3 mb-3">{{ $item->short_description }}</p>
+                                <p class="text-muted small line-clamp-3 mb-3">{{ $item->translated_short_description }}</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-between text-muted small border-top pt-2 mt-auto">
                                 <span><i class="fa-regular fa-clock me-1"></i> {{ $item->created_at->diffForHumans() }}</span>

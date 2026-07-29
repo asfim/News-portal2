@@ -24,6 +24,7 @@ class SubcategoryRequest extends FormRequest
         $subcategoryId = is_object($subcategory) ? $subcategory->id : $subcategory;
 
         return [
+            'language' => ['required', 'string', 'in:bn,en'],
             'parent_id' => [
                 'required',
                 'integer',

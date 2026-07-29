@@ -65,11 +65,15 @@
                             aria-labelledby="content-tab">
                             <div class="card border-0 shadow-sm rounded-3 p-4 mb-4">
                                 <div class="mb-4">
-                                    <label for="title" class="form-label fw-semibold text-secondary">Article
-                                        Title</label>
+                                    <label for="title" class="form-label fw-semibold text-secondary">News Title (Bengali) <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control py-3" id="title" name="title"
-                                        value="{{ old('title', $news->title) }}" placeholder="Compose a catchy title..."
-                                        required autofocus>
+                                        value="{{ old('title', $news->title) }}" placeholder="Enter news title in Bengali" required
+                                        autofocus>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="title_en" class="form-label fw-semibold text-secondary">News Title (English)</label>
+                                    <input type="text" class="form-control py-3" id="title_en" name="title_en"
+                                        value="{{ old('title_en', $news->title_en) }}" placeholder="Enter news title in English">
                                 </div>
 
                                 <div class="mb-4">
@@ -80,25 +84,32 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="short_description" class="form-label fw-semibold text-secondary">Short
-                                        Description / Sub-headline</label>
+                                    <label for="short_description" class="form-label fw-semibold text-secondary">Short Description (Bengali) <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="short_description" name="short_description" rows="3"
-                                        placeholder="Write a short summary that appears in lists..." required>{{ old('short_description', $news->short_description) }}</textarea>
+                                        placeholder="Write a short summary in Bengali..." required>{{ old('short_description', $news->short_description) }}</textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="short_description_en" class="form-label fw-semibold text-secondary">Short Description (English)</label>
+                                    <textarea class="form-control" id="short_description_en" name="short_description_en" rows="3"
+                                        placeholder="Write a short summary in English...">{{ old('short_description_en', $news->short_description_en) }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="editorContent"
-                                        class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
-                                        Long Content
-                                        <button type="button"
-                                            class="btn btn-sm btn-outline-primary rounded-pill select-media-btn"
-                                            data-target="ckeditor">
+                                    <label for="editorContent" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
+                                        Long Content (Bengali) <span class="text-danger">*</span>
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill select-media-btn" data-target="ckeditor">
                                             <i class="fa-solid fa-photo-film me-1"></i> Insert Media
                                         </button>
                                     </label>
-                                    <!-- Quill / CKEditor textarea -->
                                     <textarea class="form-control d-none" id="editorContent" name="content">{{ old('content', $news->content) }}</textarea>
-                                    <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px;"></div>
+                                    <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">{!! old('content', $news->content) !!}</div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="editorContentEn" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
+                                        Long Content (English)
+                                    </label>
+                                    <textarea class="form-control" id="editorContentEn" name="content_en" rows="15" placeholder="Enter long content in English...">{{ old('content_en', $news->content_en) }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -257,6 +268,14 @@
                 <div class="col-lg-4">
                     <div class="card bg-light bg-opacity-25 border-0 p-4 rounded-3 mb-4">
                         <h5 class="fw-bold text-dark mb-4">Publishing Info</h5>
+
+                        <div class="mb-4">
+                            <label for="language" class="form-label fw-semibold text-secondary">Language</label>
+                            <select class="form-select py-3 fw-bold" id="language" name="language" required>
+                                <option value="bn" {{ old('language', $news->language ?? 'bn') == 'bn' ? 'selected' : '' }}>বাংলা (Bengali)</option>
+                                <option value="en" {{ old('language', $news->language ?? 'bn') == 'en' ? 'selected' : '' }}>English</option>
+                            </select>
+                        </div>
 
                         <div class="mb-4">
                             <label for="category_id" class="form-label fw-semibold text-secondary">Primary

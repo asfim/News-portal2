@@ -23,7 +23,7 @@
                             @endif
                         </a>
                     </div>
-                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h4>
                 </div>
             @endforeach
         </div>
@@ -43,8 +43,8 @@
                 </a>
             </div>
             <div class="card-content">
-                <h3><a href="{{ route('news.show', $centerPost->slug) }}">{{ $centerPost->title }}</a></h3>
-                <p>{{ Str::limit($centerPost->short_description, 180) }}</p>
+                <h3><a href="{{ route('news.show', $centerPost->slug) }}">{{ $centerPost->translated_title }}</a></h3>
+                <p>{{ Str::limit($centerPost->translated_short_description, 180) }}</p>
                 <span class="time">{{ $centerPost->created_at->diffForHumans() }}</span>
             </div>
         </div>
@@ -65,7 +65,7 @@
                             @endif
                         </a>
                     </div>
-                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                    <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h4>
                 </div>
             @endforeach
         </div>

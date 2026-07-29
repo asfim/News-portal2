@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $news->title . ' | NewsHub Pro')
+@section('title', $news->translated_title . ' | NewsHub Pro')
 
 @section('content')
 <main class="container-fluid px-lg-5 py-4">
@@ -16,18 +16,18 @@
                 <nav aria-label="breadcrumb" class="mb-3">
                     <ol class="breadcrumb m-0 small fw-medium">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> হোম</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('category', $news->category->slug) }}" class="text-decoration-none text-muted">{{ $news->category->name }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('category', $news->category->slug) }}" class="text-decoration-none text-muted">{{ $news->category->translated_name }}</a></li>
                         <li class="breadcrumb-item active text-danger" aria-current="page">বর্তমান খবর</li>
                     </ol>
                 </nav>
 
-                <span class="badge bg-danger text-uppercase px-3 py-2 rounded-pill fw-bold mb-3">{{ $news->category->name }}</span>
+                <span class="badge bg-danger text-uppercase px-3 py-2 rounded-pill fw-bold mb-3">{{ $news->category->translated_name }}</span>
                 
                 <h1 class="fw-black display-5 mb-3 lh-sm" style="font-size: calc(1.8rem + 1.5vw);">
-                    {{ $news->title }}
+                    {{ $news->translated_title }}
                 </h1>
                 <p class="fs-5 text-muted mb-4 fw-medium">
-                    {{ $news->short_description }}
+                    {{ $news->translated_short_description }}
                 </p>
 
                 <div class="glass-card p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
@@ -50,8 +50,8 @@
                     <div class="d-flex gap-2 align-items-center">
                         <span class="small fw-bold text-muted me-1">শেয়ার:</span>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}" target="_blank" class="btn btn-sm btn-outline-info rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-success rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->translated_title) }}" target="_blank" class="btn btn-sm btn-outline-info rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($news->translated_title . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-success rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-whatsapp"></i></a>
                         <button class="btn btn-sm btn-outline-secondary ms-2" onclick="window.print()"><i class="fa-solid fa-print"></i> প্রিন্ট</button>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                             @endif
                         @endif
                     @elseif($news->featuredImage)
-                        <img src="{{ $news->featuredImage->path }}" class="w-100 img-fluid" alt="{{ $news->title }}">
+                        <img src="{{ $news->featuredImage->path }}" class="w-100 img-fluid" alt="{{ $news->translated_title }}">
                         @if($news->featuredImage->caption)
                             <div class="p-2 bg-dark text-white small">{{ $news->featuredImage->caption }}</div>
                         @endif
@@ -87,7 +87,7 @@
                 </div>
 
                 <article id="articleBody" class="article-content fs-5 lh-lg" style="color: var(--nh-text); font-size: 19px;">
-                    {!! $news->content !!}
+                    {!! $news->translated_content !!}
                 </article>
                 
                 <!-- Tags -->
@@ -96,7 +96,7 @@
                     <h5 class="fw-bold mb-3">ট্যাগসমূহ:</h5>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach($news->tags as $tag)
-                            <a href="#" class="badge bg-secondary text-white text-decoration-none px-3 py-2 rounded-pill">#{{ $tag->name }}</a>
+                            <a href="#" class="badge bg-secondary text-white text-decoration-none px-3 py-2 rounded-pill">#{{ $tag->translated_name }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                                     </div>
                                     <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
                                         <h6 class="fw-bold mb-2 line-clamp-2">
-                                            <a href="{{ route('news.show', $related->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $related->title }}</a>
+                                            <a href="{{ route('news.show', $related->slug) }}" class="text-reset text-decoration-none hover-danger">{{ $related->translated_title }}</a>
                                         </h6>
                                         <span class="text-muted small" style="font-size: 0.75rem;"><i class="fa-regular fa-clock me-1"></i> {{ $related->created_at->diffForHumans() }}</span>
                                     </div>
@@ -152,7 +152,7 @@
                         <div class="d-flex flex-column gap-3">
                             @foreach(\App\Models\News::published()->where('category_id', $news->category_id)->where('id', '!=', $news->id)->latest()->take(4)->get() as $related)
                             <a href="{{ route('news.show', $related->slug) }}" class="text-reset text-decoration-none border-bottom pb-2">
-                                <h6 class="fw-bold hover-danger m-0">{{ $related->title }}</h6>
+                                <h6 class="fw-bold hover-danger m-0">{{ $related->translated_title }}</h6>
                                 <small class="text-muted">{{ $related->created_at->diffForHumans() }}</small>
                             </a>
                             @endforeach

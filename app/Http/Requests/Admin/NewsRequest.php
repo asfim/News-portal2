@@ -28,14 +28,17 @@ class NewsRequest extends FormRequest
             'subcategory_id' => ['nullable', 'integer', 'exists:categories,id'],
             'author_id' => ['required', 'integer', 'exists:authors,id'],
             'title' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'required',
                 'string',
                 'max:255',
                 Rule::unique('news', 'slug')->ignore($newsId)
             ],
-            'short_description' => ['required', 'string'],
+            'short_description' => ['required', 'string', 'max:500'],
+            'short_description_en' => ['nullable', 'string', 'max:500'],
             'content' => ['required', 'string'],
+            'content_en' => ['nullable', 'string'],
             'featured_image' => ['nullable', 'integer', 'exists:media,id'],
             'thumbnail' => ['nullable', 'integer', 'exists:media,id'],
             'video_url' => ['nullable', 'string', 'max:255'],

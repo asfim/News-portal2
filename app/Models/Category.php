@@ -14,6 +14,7 @@ class Category extends Model
     protected $fillable = [
         'parent_id',
         'name',
+        'name_en',
         'slug',
         'description',
         'image',
@@ -24,6 +25,11 @@ class Category extends Model
         'layout_type',
         'sort_order',
     ];
+
+    public function getTranslatedNameAttribute()
+    {
+        return app()->getLocale() === 'en' && !empty($this->name_en) ? $this->name_en : $this->name;
+    }
 
     protected $casts = [
         'status' => 'boolean',

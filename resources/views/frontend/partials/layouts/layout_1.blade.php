@@ -20,8 +20,8 @@
                 </a>
             </div>
             <div class="card-content">
-                <h3><a href="{{ route('news.show', $mainPost->slug) }}">{{ $mainPost->title }}</a></h3>
-                <p>{{ Str::limit($mainPost->short_description, 180) }}</p>
+                <h3><a href="{{ route('news.show', $mainPost->slug) }}">{{ $mainPost->translated_title }}</a></h3>
+                <p>{{ Str::limit($mainPost->translated_short_description, 180) }}</p>
                 <span class="time">{{ $mainPost->created_at->diffForHumans() }}</span>
             </div>
         </div>
@@ -42,7 +42,7 @@
                             </a>
                         </div>
                         <div class="card-content">
-                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                            <h4><a href="{{ route('news.show', $post->slug) }}">{{ $post->translated_title }}</a></h4>
                         </div>
                     </div>
                 @endforeach

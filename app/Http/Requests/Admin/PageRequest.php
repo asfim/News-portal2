@@ -25,6 +25,7 @@ class PageRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'required',
                 'string',
@@ -32,6 +33,7 @@ class PageRequest extends FormRequest
                 Rule::unique('pages', 'slug')->ignore($pageId)
             ],
             'content' => ['required', 'string'],
+            'content_en' => ['nullable', 'string'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
             'meta_keywords' => ['nullable', 'string', 'max:255'],

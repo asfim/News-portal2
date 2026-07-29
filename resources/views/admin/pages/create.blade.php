@@ -44,8 +44,13 @@
                     <div class="tab-pane fade show active" id="contentSec" role="tabpanel" aria-labelledby="content-tab">
                         <div class="card border-0 shadow-sm rounded-3 p-4 mb-4">
                             <div class="mb-4">
-                                <label for="title" class="form-label fw-semibold text-secondary">Page Title</label>
+                                <label for="title" class="form-label fw-semibold text-secondary">Page Title (Bengali) <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control py-3" id="title" name="title" value="{{ old('title') }}" placeholder="e.g. Terms of Service" required autofocus>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="title_en" class="form-label fw-semibold text-secondary">Page Title (English)</label>
+                                <input type="text" class="form-control py-3" id="title_en" name="title_en" value="{{ old('title_en') }}" placeholder="e.g. Terms of Service">
                             </div>
 
                             <div class="mb-4">
@@ -53,10 +58,20 @@
                                 <input type="text" class="form-control py-3" id="slug" name="slug" value="{{ old('slug') }}" placeholder="auto-generated-slug" required>
                             </div>
 
-                            <div class="mb-4">
-                                <label for="editorContent" class="form-label fw-semibold text-secondary">Content</label>
-                                <textarea class="form-control d-none" id="editorContent" name="content">{{ old('content') }}</textarea>
-                                <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px;"></div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Content (Bengali) <span class="text-danger">*</span></label>
+                                <textarea class="form-control editor @error('content') is-invalid @enderror" id="content" name="content" rows="10">{{ old('content') }}</textarea>
+                                @error('content')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="content_en" class="form-label">Content (English)</label>
+                                <textarea class="form-control editor @error('content_en') is-invalid @enderror" id="content_en" name="content_en" rows="10">{{ old('content_en') }}</textarea>
+                                @error('content_en')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -86,6 +101,14 @@
             <div class="col-lg-4">
                 <div class="card bg-light bg-opacity-25 border-0 p-4 rounded-3 mb-4">
                     <h5 class="fw-bold text-dark mb-4">Configurations</h5>
+
+                    <div class="mb-4">
+                        <label for="language" class="form-label fw-semibold text-secondary">Language</label>
+                        <select class="form-select py-3 fw-bold" id="language" name="language" required>
+                            <option value="bn" {{ old('language') == 'bn' ? 'selected' : '' }}>বাংলা (Bengali)</option>
+                            <option value="en" {{ old('language') == 'en' ? 'selected' : '' }}>English</option>
+                        </select>
+                    </div>
 
                     <div class="form-check form-switch ps-0">
                         <label class="form-check-label fw-semibold text-dark fs-6" for="status">Active Page</label>

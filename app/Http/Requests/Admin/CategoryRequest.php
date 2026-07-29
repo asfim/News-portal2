@@ -24,6 +24,8 @@ class CategoryRequest extends FormRequest
         $categoryId = is_object($category) ? $category->id : $category;
 
         return [
+            'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'parent_id' => [
                 'nullable',
                 'integer',
@@ -33,7 +35,6 @@ class CategoryRequest extends FormRequest
                     }
                 })
             ],
-            'name' => ['required', 'string', 'max:255'],
             'slug' => [
                 'required',
                 'string',
