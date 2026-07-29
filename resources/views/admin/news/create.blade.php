@@ -108,7 +108,7 @@
                                         </button>
                                     </label>
                                     <textarea class="form-control d-none" id="editorContent" name="content">{{ old('content') }}</textarea>
-                                    <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;"></div>
+                                    <div id="wysiwygEditor" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">{!! old('content') !!}</div>
                                 </div>
 
                                 <div class="mb-4">
@@ -119,7 +119,7 @@
                                         </button>
                                     </label>
                                     <textarea class="form-control d-none" id="editorContentEn" name="content_en">{{ old('content_en') }}</textarea>
-                                    <div id="wysiwygEditorEn" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;"></div>
+                                    <div id="wysiwygEditorEn" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">{!! old('content_en') !!}</div>
                                 </div>
                             </div>
                         </div>
