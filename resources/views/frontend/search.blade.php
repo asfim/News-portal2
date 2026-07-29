@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'অনুসন্ধানের ফলাফল: "' . $query . '" | NewsHub Pro')
+@section('title', $query ? 'অনুসন্ধানের ফলাফল: "' . $query . '" | NewsHub Pro' : 'অনুসন্ধান করুন | NewsHub Pro')
 
 @section('content')
 <main class="container-fluid px-lg-5 py-4">
     <!-- Page Header -->
     <section class="mb-4">
         <div class="d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary-subtle">
-            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">অনুসন্ধান: "{{ $query }}"</h1>
+            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">{{ $query ? 'অনুসন্ধান: "' . $query . '"' : 'সংবাদ অনুসন্ধান করুন' }}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb m-0 small">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">হোম</a></li>
@@ -16,6 +16,19 @@
             </nav>
         </div>
     </section>
+
+    <!-- Search Box -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form action="{{ route('search') }}" method="GET" class="shadow-sm border rounded-pill overflow-hidden bg-white p-1">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-0 text-secondary ps-3"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" name="q" class="form-control border-0 py-2" placeholder="সংবাদ অনুসন্ধান করুন..." value="{{ $query }}" style="box-shadow: none;">
+                    <button type="submit" class="btn btn-danger px-4 rounded-pill fw-semibold">খুঁজুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- News Grid -->
     <section class="mb-5">

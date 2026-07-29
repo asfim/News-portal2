@@ -36,9 +36,10 @@
 
 <div class="logo-row">
     <div class="wrap">
-        <div class="search" style="cursor:pointer;" onclick="location.href='{{ route('search') }}'">
-            <i class="fa-solid fa-magnifying-glass me-1"></i> {{ __('messages.search') }}
-        </div>
+        <form action="{{ route('search') }}" method="GET" class="search">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>
+            <input type="text" name="q" placeholder="খুঁজুন..." value="{{ request('q') }}" style="border: none; outline: none; background: transparent; font-size: 13px; color: inherit; width: 100%;">
+        </form>
         <div class="brand">
             <a href="{{ route('home') }}">
                 <h1>{{ \App\Models\Setting::get('site_name', 'জনকথা') }}</h1>

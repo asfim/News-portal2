@@ -148,7 +148,11 @@
                                                     <span class="badge bg-warning text-dark py-1 px-2"
                                                         style="font-size: 0.7rem;">Trending</span>
                                                 @endif
-                                                @if (!$item->breaking_news && !$item->featured_news && !$item->trending_news)
+                                                @if ($item->is_latest)
+                                                    <span class="badge bg-info text-dark py-1 px-2"
+                                                        style="font-size: 0.7rem;">Latest</span>
+                                                @endif
+                                                @if (!$item->breaking_news && !$item->featured_news && !$item->trending_news && !$item->is_latest)
                                                     <span class="text-secondary small">Standard</span>
                                                 @endif
                                             </div>
