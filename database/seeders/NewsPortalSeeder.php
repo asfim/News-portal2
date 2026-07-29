@@ -21,6 +21,10 @@ class NewsPortalSeeder extends Seeder
         Setting::set('site_name', 'দৈনিক জনকথা');
         Setting::set('site_description', 'প্রতিদিনের বিশ্বাসযোগ্য সংবাদ, গভীর বিশ্লেষণ ও মতামত নিয়ে আপনার পাশে।');
         Setting::set('footer_copyright', '© ২০২৬ দৈনিক জনকথা। সর্বস্বত্ব সংরক্ষিত।');
+        Setting::set('facebook', 'https://facebook.com/janakatha');
+        Setting::set('youtube', 'https://youtube.com/janakatha');
+        Setting::set('instagram', 'https://instagram.com/janakatha');
+        Setting::set('twitter', 'https://twitter.com/janakatha');
         Setting::set('homepage_categories', json_encode([
             'bangladesh',
             'politics',
@@ -30,6 +34,12 @@ class NewsPortalSeeder extends Seeder
             'entertainment',
             'lifestyle'
         ]));
+
+        // Seed default Pages for the footer (প্রতিষ্ঠান)
+        \App\Models\Page::firstOrCreate(['slug' => 'about-us'], ['title' => 'আমাদের সম্পর্কে', 'content' => 'দৈনিক জনকথা একটি নির্ভরযোগ্য সংবাদ মাধ্যম। আমরা সর্বদা সত্য ও নিরপেক্ষ সংবাদ পরিবেশনে অঙ্গীকারবদ্ধ।', 'status' => true]);
+        \App\Models\Page::firstOrCreate(['slug' => 'contact'], ['title' => 'যোগাযোগ', 'content' => 'আমাদের সাথে যোগাযোগ করতে ইমেইল করুন: contact@janakatha.com', 'status' => true]);
+        \App\Models\Page::firstOrCreate(['slug' => 'terms-of-service'], ['title' => 'শর্তাবলী', 'content' => 'আমাদের ওয়েবসাইটের ব্যবহারের শর্তাবলী বিস্তারিত জানতে এখানে পড়ুন।', 'status' => true]);
+        \App\Models\Page::firstOrCreate(['slug' => 'privacy-policy'], ['title' => 'গোপনীয়তা নীতি', 'content' => 'আপনার তথ্যের গোপনীয়তা রক্ষায় আমরা প্রতিশ্রুতিবদ্ধ।', 'status' => true]);
 
         // Get or create author profile
         $author = Author::first();
