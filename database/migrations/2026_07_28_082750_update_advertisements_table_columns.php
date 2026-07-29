@@ -16,7 +16,10 @@ return new class extends Migration
             $table->renameColumn('image', 'image_path');
             $table->renameColumn('link', 'redirect_url');
             $table->renameColumn('html_code', 'script_code');
-            $table->string('type', 20)->default('image')->after('position');
+        });
+
+        Schema::table('advertisements', function (Blueprint $table) {
+            $table->string('type', 20)->default('image')->after('placement_key');
         });
     }
 

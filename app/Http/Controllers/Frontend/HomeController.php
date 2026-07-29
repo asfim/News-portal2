@@ -15,7 +15,7 @@ class HomeController extends Controller
         $featured = News::published()->featured()->with(['category', 'author', 'featuredImage'])->latest()->first();
         
         // Get recent news
-        $recent = News::published()->latest()->take(15)->get();
+        $recent = News::published()->with(['featuredImage', 'thumbnailImage', 'category'])->latest()->take(15)->get();
         
         // Section Categories (from Settings)
         $selectedCats = json_decode(\App\Models\Setting::get('homepage_categories', '[]'), true) ?? [];
@@ -25,11 +25,11 @@ class HomeController extends Controller
 
         $categorySections = Category::whereIn('slug', $selectedCats)
             ->with(['news' => function ($query) {
-                $query->published()->orderBy('featured_news', 'desc')->latest()->take(9);
+                $query->published()->with(['featuredImage', 'thumbnailImage'])->orderBy('featured_news', 'desc')->latest()->take(9);
             }, 'children'])->get();
 
         // Video News
-        $videoNews = News::published()->whereNotNull('video_url')->latest()->take(6)->get();
+        $videoNews = News::published()->with(['featuredImage', 'thumbnailImage'])->whereNotNull('video_url')->latest()->take(6)->get();
 
         // Get trending news
         $trending = News::published()->trending()->with('category')->take(7)->get();
@@ -38,7 +38,7 @@ class HomeController extends Controller
         $mostRead = News::published()->orderBy('views', 'desc')->with('category')->take(5)->get();
 
         // Get Latest News (feature flag)
-        $latestFeaturedNews = News::published()->where('is_latest', true)->latest()->take(9)->get();
+        $latestFeaturedNews = News::published()->with(['featuredImage', 'thumbnailImage'])->where('is_latest', true)->latest()->take(9)->get();
 
         // Get Breaking News for the sidebar
         $breaking = News::published()->breaking()->latest()->take(12)->get();
@@ -190,6 +190,7 @@ class HomeController extends Controller
         $category = Category::findOrFail($id);
         
         $posts = \App\Models\News::published()
+            ->with(['featuredImage', 'thumbnailImage'])
             ->where(function($q) use ($id) {
                 $q->where('category_id', $id)
                   ->orWhere('subcategory_id', $id);

@@ -508,7 +508,7 @@
                                 @foreach($section->children->take(5) as $child)
                                     <button class="ajax-tab-btn" data-category-id="{{ $child->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $section->layout_type ?: 'layout-1' }}" onclick="loadCategoryNews(this)">{{ $child->name }}</button>
                                 @endforeach
-                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $layoutType }}" onclick="loadCategoryNews(this)">{{ __('messages.all') }}</button>
+                                <button class="ajax-tab-btn active" data-category-id="{{ $section->id }}" data-section-id="{{ $section->id }}" data-layout="{{ $layoutType }}" onclick="loadCategoryNews(this)">সব</button>
                             </div>
                         @endif
                     </div>
