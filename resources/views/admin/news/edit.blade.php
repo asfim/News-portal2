@@ -481,6 +481,9 @@
                 })
                 .then(editor => {
                     ckEditorInstance = editor;
+                    if (editor.ui.view.editable.element) {
+                        editor.ui.view.editable.element.style.minHeight = '400px';
+                    }
                     editor.model.document.on('change:data', () => {
                         document.getElementById('editorContent').value = editor.getData();
                     });
@@ -495,6 +498,9 @@
                 })
                 .then(editor => {
                     ckEditorInstanceEn = editor;
+                    if (editor.ui.view.editable.element) {
+                        editor.ui.view.editable.element.style.minHeight = '400px';
+                    }
                     editor.model.document.on('change:data', () => {
                         document.getElementById('editorContentEn').value = editor.getData();
                     });
