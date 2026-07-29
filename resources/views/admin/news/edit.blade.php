@@ -3,6 +3,13 @@
 @section('title', 'Edit Article')
 
 @section('content')
+
+<style>
+.ck-editor__editable_inline {
+    min-height: 400px;
+}
+</style>
+
     <div class="container-fluid px-0">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
@@ -97,7 +104,7 @@
                                 <div class="mb-4">
                                     <label for="editorContent" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
                                         Long Content (Bengali) <span class="text-danger">*</span>
-                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill select-media-btn" data-target="ckeditor">
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill select-media-btn" data-target="ckeditor_bn">
                                             <i class="fa-solid fa-photo-film me-1"></i> Insert Media
                                         </button>
                                     </label>
@@ -108,8 +115,12 @@
                                 <div class="mb-4">
                                     <label for="editorContentEn" class="form-label fw-semibold text-secondary d-flex justify-content-between align-items-center">
                                         Long Content (English)
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill select-media-btn" data-target="ckeditor_en">
+                                            <i class="fa-solid fa-photo-film me-1"></i> Insert Media
+                                        </button>
                                     </label>
-                                    <textarea class="form-control" id="editorContentEn" name="content_en" rows="15" placeholder="Enter long content in English...">{{ old('content_en', $news->content_en) }}</textarea>
+                                    <textarea class="form-control d-none" id="editorContentEn" name="content_en">{{ old('content_en', $news->content_en) }}</textarea>
+                                    <div id="wysiwygEditorEn" style="min-height: 400px; border-radius: 0 0 12px 12px; border: 1px solid #dee2e6;">{!! old('content_en', $news->content_en) !!}</div>
                                 </div>
                             </div>
                         </div>
@@ -269,13 +280,7 @@
                     <div class="card bg-light bg-opacity-25 border-0 p-4 rounded-3 mb-4">
                         <h5 class="fw-bold text-dark mb-4">Publishing Info</h5>
 
-                        <div class="mb-4">
-                            <label for="language" class="form-label fw-semibold text-secondary">Language</label>
-                            <select class="form-select py-3 fw-bold" id="language" name="language" required>
-                                <option value="bn" {{ old('language', $news->language ?? 'bn') == 'bn' ? 'selected' : '' }}>বাংলা (Bengali)</option>
-                                <option value="en" {{ old('language', $news->language ?? 'bn') == 'en' ? 'selected' : '' }}>English</option>
-                            </select>
-                        </div>
+                        
 
                         <div class="mb-4">
                             <label for="category_id" class="form-label fw-semibold text-secondary">Primary
@@ -466,6 +471,7 @@
             }, true);
 
             let ckEditorInstance;
+            let ckEditorInstanceEn;
             // 1. CKEditor Initialization
             ClassicEditor
                 .create(document.querySelector('#wysiwygEditor'), {
@@ -479,6 +485,20 @@
                         document.getElementById('editorContent').value = editor.getData();
                     });
                     editor.setData(document.getElementById('editorContent').value);
+                });
+
+            ClassicEditor
+                .create(document.querySelector('#wysiwygEditorEn'), {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                        'blockQuote', 'insertTable', 'undo', 'redo'
+                    ]
+                })
+                .then(editor => {
+                    ckEditorInstanceEn = editor;
+                    editor.model.document.on('change:data', () => {
+                        document.getElementById('editorContentEn').value = editor.getData();
+                    });
+                    editor.setData(document.getElementById('editorContentEn').value);
                 });
 
             // 2. Slug Auto Generation
@@ -592,13 +612,19 @@
             document.getElementById('btnConfirmMediaSelect').addEventListener('click', function() {
                 if (!selectedMediaId) return;
 
-                if (mediaTarget === 'ckeditor') {
+                if (mediaTarget === 'ckeditor_bn') {
                     ckEditorInstance.model.change(writer => {
-                        const imageElement = writer.createElement('imageBlock', {
-                            src: selectedMediaPath
-                        });
-                        ckEditorInstance.model.insertContent(imageElement, ckEditorInstance.model
-                            .document.selection);
+                        const imageElement = writer.createElement('imageBlock', { src: selectedMediaPath });
+                        ckEditorInstance.model.insertContent(imageElement, ckEditorInstance.model.document.selection);
+                    });
+                    selectMediaModal.hide();
+                    return;
+                }
+                
+                if (mediaTarget === 'ckeditor_en') {
+                    ckEditorInstanceEn.model.change(writer => {
+                        const imageElement = writer.createElement('imageBlock', { src: selectedMediaPath });
+                        ckEditorInstanceEn.model.insertContent(imageElement, ckEditorInstanceEn.model.document.selection);
                     });
                     selectMediaModal.hide();
                     return;

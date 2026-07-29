@@ -3,6 +3,13 @@
 @section('title', 'Edit Page')
 
 @section('content')
+
+<style>
+.ck-editor__editable_inline {
+    min-height: 400px;
+}
+</style>
+
 <div class="container-fluid px-0">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -102,13 +109,7 @@
                 <div class="card bg-light bg-opacity-25 border-0 p-4 rounded-3 mb-4">
                     <h5 class="fw-bold text-dark mb-4">Configurations</h5>
 
-                    <div class="mb-4">
-                        <label for="language" class="form-label fw-semibold text-secondary">Language</label>
-                        <select class="form-select py-3 fw-bold" id="language" name="language" required>
-                            <option value="bn" {{ old('language', $page->language ?? 'bn') == 'bn' ? 'selected' : '' }}>বাংলা (Bengali)</option>
-                            <option value="en" {{ old('language', $page->language ?? 'bn') == 'en' ? 'selected' : '' }}>English</option>
-                        </select>
-                    </div>
+                    
 
                     <div class="form-check form-switch ps-0">
                         <label class="form-check-label fw-semibold text-dark fs-6" for="status">Active Page</label>
