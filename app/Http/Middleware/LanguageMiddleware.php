@@ -15,11 +15,9 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session()->has('locale')) {
-            app()->setLocale(session('locale'));
-        } else {
-            app()->setLocale('bn');
-        }
+        $locale = session('locale', 'bn');
+        app()->setLocale($locale);
+        \Illuminate\Support\Carbon::setLocale($locale);
 
         return $next($request);
     }

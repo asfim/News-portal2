@@ -15,9 +15,9 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="mb-3">
                     <ol class="breadcrumb m-0 small fw-medium">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> হোম</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> @lang('messages.home')</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('category', $news->category->slug) }}" class="text-decoration-none text-muted">{{ $news->category->translated_name }}</a></li>
-                        <li class="breadcrumb-item active text-danger" aria-current="page">বর্তমান খবর</li>
+                        <li class="breadcrumb-item active text-danger" aria-current="page">@lang('messages.current_news')</li>
                     </ol>
                 </nav>
 
@@ -35,24 +35,23 @@
                         <img src="https://ui-avatars.com/api/?name={{ urlencode($news->author->name) }}&background=random" class="rounded-circle object-fit-cover" style="width: 50px; height: 50px;" alt="{{ $news->author->name }}">
                         <div>
                             <h6 class="fw-bold m-0">{{ $news->author->name }}</h6>
-                            <small class="text-muted">প্রতিবেদক | ঢাকা</small>
+                            <small class="text-muted">@lang('messages.reporter_dhaka')</small>
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-3 text-muted small">
                         <span><i class="fa-regular fa-calendar me-1"></i> {{ $news->created_at->format('d F Y') }}</span>
-                        <span><i class="fa-regular fa-clock me-1"></i> ৪ মিনিট পাঠ</span>
-                        <span><i class="fa-regular fa-eye me-1"></i> {{ number_format($news->views) }} পঠিত</span>
+                        <span><i class="fa-regular fa-eye me-1"></i> {{ number_format($news->views) }} @lang('messages.views_count')</span>
                     </div>
                 </div>
 
                 <!-- Reading Accessibility Actions -->
                 <div class="d-flex align-items-center justify-content-end p-2 mb-4 rounded-3 bg-body-tertiary border">
                     <div class="d-flex gap-2 align-items-center">
-                        <span class="small fw-bold text-muted me-1">শেয়ার:</span>
+                        <span class="small fw-bold text-muted me-1">@lang('messages.share')</span>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->translated_title) }}" target="_blank" class="btn btn-sm btn-outline-info rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-twitter"></i></a>
                         <a href="https://api.whatsapp.com/send?text={{ urlencode($news->translated_title . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-sm btn-outline-success rounded-circle" style="width:32px; height:32px; padding: 4px;"><i class="fa-brands fa-whatsapp"></i></a>
-                        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="window.print()"><i class="fa-solid fa-print"></i> প্রিন্ট</button>
+                        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="window.print()"><i class="fa-solid fa-print"></i> @lang('messages.print')</button>
                     </div>
                 </div>
 
@@ -93,7 +92,7 @@
                 <!-- Tags -->
                 @if($news->tags->count() > 0)
                 <div class="mt-5 border-top pt-4">
-                    <h5 class="fw-bold mb-3">ট্যাগসমূহ:</h5>
+                    <h5 class="fw-bold mb-3">@lang('messages.tags')</h5>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach($news->tags as $tag)
                             <a href="#" class="badge bg-secondary text-white text-decoration-none px-3 py-2 rounded-pill">#{{ $tag->translated_name }}</a>
@@ -107,8 +106,8 @@
                 <!-- Bottom Related News -->
                 <div class="mt-5 border-top pt-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h4 class="fw-extrabold m-0 border-start border-4 border-danger ps-2">আরও খবর</h4>
-                        <a href="{{ route('news.quick') }}" class="text-danger fw-bold text-decoration-none small">সব দেখুন <i class="fa-solid fa-arrow-right"></i></a>
+                        <h4 class="fw-extrabold m-0 border-start border-4 border-danger ps-2">@lang('messages.more_news')</h4>
+                        <a href="{{ route('news.quick') }}" class="text-danger fw-bold text-decoration-none small">@lang('messages.see_all') <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                     
                     <div class="row g-3">
@@ -136,7 +135,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="col-12 text-muted small">এই ক্যাটাগরিতে আর কোনো খবর নেই।</div>
+                            <div class="col-12 text-muted small">@lang('messages.no_related_news')</div>
                         @endforelse
                     </div>
                 </div>
@@ -148,7 +147,7 @@
                     {!! renderAdSlot('sidebar_top', 'w-100 mb-4') !!}
                     
                     <div class="glass-card p-4 mb-4">
-                        <h5 class="fw-extrabold mb-3 border-start border-3 border-danger ps-2">সম্পর্কিত খবর</h5>
+                        <h5 class="fw-extrabold mb-3 border-start border-3 border-danger ps-2">@lang('messages.related_news')</h5>
                         <div class="d-flex flex-column gap-3">
                             @foreach(\App\Models\News::published()->where('category_id', $news->category_id)->where('id', '!=', $news->id)->latest()->take(4)->get() as $related)
                             <a href="{{ route('news.show', $related->slug) }}" class="text-reset text-decoration-none border-bottom pb-2">

@@ -454,10 +454,10 @@
             @else
                 <div class="ad-band">
                     <div>
-                        <div class="l">{{ \App\Models\Setting::get('site_name', 'জনকথা') }} হোম লোন</div>
-                        <div class="s">এখন মাত্র এক ক্লিকে আবেদন করুন</div>
+                        <div class="l">{{ app()->getLocale() == 'en' ? (\App\Models\Setting::get('site_name_en', \App\Models\Setting::get('site_name', 'Jonokotha')) . ' Home Loan') : (\App\Models\Setting::get('site_name', 'জনকথা') . ' হোম লোন') }}</div>
+                        <div class="s">{{ app()->getLocale() == 'en' ? 'Apply now in just one click' : 'এখন মাত্র এক ক্লিকে আবেদন করুন' }}</div>
                     </div>
-                    <div class="cta" style="cursor:pointer;">বিস্তারিত জানুন</div>
+                    <div class="cta" style="cursor:pointer;">{{ app()->getLocale() == 'en' ? 'Learn More' : 'বিস্তারিত জানুন' }}</div>
                 </div>
             @endif
 
@@ -547,7 +547,7 @@
                                     </figure>
                                     <h4>{{ $bigGallery->translated_title }}</h4>
                                 </a>
-                                <p class="t">{{ $bigGallery->category ? $bigGallery->category->translated_name : 'বাংলাদেশ' }}
+                                <p class="t">{{ $bigGallery->category ? $bigGallery->category->translated_name : (app()->getLocale() == 'en' ? 'Bangladesh' : 'বাংলাদেশ') }}
                                 </p>
                             </div>
                         @endif
@@ -564,7 +564,7 @@
                                     </figure>
                                     <h4>{{ $item->translated_title }}</h4>
                                 </a>
-                                <p class="t">{{ $item->category ? $item->category->translated_name : 'বাংলাদেশ' }}</p>
+                                <p class="t">{{ $item->category ? $item->category->translated_name : (app()->getLocale() == 'en' ? 'Bangladesh' : 'বাংলাদেশ') }}</p>
                             </div>
                         @endforeach
                     </div>

@@ -71,5 +71,5 @@
         </div>
     </div>
 @else
-    <div class="text-center py-4 text-secondary">কোনো খবর পাওয়া যায়নি।</div>
+    <div class="text-center py-4 text-secondary">@lang('messages.no_latest_news')</div>
 @endif

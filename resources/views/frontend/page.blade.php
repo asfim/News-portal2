@@ -9,7 +9,7 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb m-0 small fw-medium">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> হোম</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted"><i class="fa-solid fa-house me-1"></i> @lang('messages.home')</a></li>
                     <li class="breadcrumb-item active text-danger" aria-current="page">{{ $page->translated_title }}</li>
                 </ol>
             </nav>

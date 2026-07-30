@@ -10,7 +10,7 @@
             <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">{{ $category->translated_name }}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb m-0 small">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">হোম</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">@lang('messages.home')</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $category->translated_name }}</li>
                 </ol>
             </nav>
@@ -51,9 +51,9 @@
         @else
             <div class="text-center py-5">
                 <div class="display-1 text-muted mb-3"><i class="fa-regular fa-folder-open"></i></div>
-                <h3 class="fw-bold text-muted">কোনো সংবাদ পাওয়া যায়নি</h3>
-                <p class="text-secondary">এই ক্যাটাগরিতে এই মুহূর্তে দেখানোর মতো কোনো সংবাদ নেই।</p>
-                <a href="{{ route('home') }}" class="btn btn-danger px-4 py-2 rounded-pill mt-3">হোমপেজে ফিরে যান</a>
+                <h3 class="fw-bold text-muted">@lang('messages.no_news_found')</h3>
+                <p class="text-secondary">@lang('messages.no_category_news_desc')</p>
+                <a href="{{ route('home') }}" class="btn btn-danger px-4 py-2 rounded-pill mt-3">@lang('messages.back_to_home')</a>
             </div>
         @endif
     </section>

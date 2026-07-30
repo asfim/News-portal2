@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'গ্যালারি | দৈনিক জনকথা')
+@section('title', __('messages.gallery') . ' | ' . \App\Models\Setting::get(app()->getLocale() == 'en' ? 'site_name_en' : 'site_name', 'Jonokotha'))
 
 @section('content')
 <main class="container-fluid px-lg-5 py-4">
     <!-- Page Header -->
     <section class="mb-4">
         <div class="d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary-subtle">
-            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">গ্যালারি</h1>
+            <h1 class="h3 fw-extrabold m-0 border-start border-4 border-danger ps-3">@lang('messages.photo_gallery')</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb m-0 small">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">হোম</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">গ্যালারি</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">@lang('messages.home')</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@lang('messages.photo_gallery')</li>
                 </ol>
             </nav>
         </div>
@@ -58,9 +58,9 @@
         @else
             <div class="text-center py-5">
                 <div class="display-1 text-muted mb-3"><i class="fa-regular fa-images"></i></div>
-                <h3 class="fw-bold text-muted">কোনো ছবি পাওয়া যায়নি</h3>
-                <p class="text-secondary">এই মুহূর্তে দেখানোর মতো কোনো গ্যালারি সংবাদ নেই।</p>
-                <a href="{{ route('home') }}" class="btn btn-danger px-4 py-2 rounded-pill mt-3">হোমপেজে ফিরে যান</a>
+                <h3 class="fw-bold text-muted">@lang('messages.no_news_found')</h3>
+                <p class="text-secondary">@lang('messages.no_latest_news')</p>
+                <a href="{{ route('home') }}" class="btn btn-danger px-4 py-2 rounded-pill mt-3">@lang('messages.back_to_home')</a>
             </div>
         @endif
     </section>
