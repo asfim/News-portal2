@@ -612,15 +612,15 @@
                 selectMediaModal.hide();
             });
             // Custom limit logic based on category
-            const categorySelect = document.getElementById('category_id');
+            const categorySelectMain = document.getElementById('category_id');
             const featuredLabel = document.getElementById('featured_news_label');
             const featuredWarning = document.getElementById('featuredWarningText');
             const trendingLabel = document.getElementById('trending_news_label');
             const trendingWarning = document.getElementById('trendingWarningText');
 
             function updateCategoryLimits() {
-                if (!categorySelect) return;
-                const isSports = categorySelect.value == '5';
+                if (!categorySelectMain) return;
+                const isSports = categorySelectMain.value == '5';
 
                 if (isSports) {
                     if (featuredLabel) featuredLabel.innerText = "Homepage Featured Block (Max 4)";
@@ -649,8 +649,8 @@
                 }
             }
 
-            if (categorySelect) {
-                categorySelect.addEventListener('change', updateCategoryLimits);
+            if (categorySelectMain) {
+                categorySelectMain.addEventListener('change', updateCategoryLimits);
                 updateCategoryLimits();
             }
         });
